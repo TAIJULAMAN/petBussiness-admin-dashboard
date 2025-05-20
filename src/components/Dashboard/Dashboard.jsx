@@ -1,10 +1,10 @@
 import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
 import dayjs from "dayjs";
-import user from "../../assets/user.png";
-import medal from "../../assets/medal.png";
-import profit from "../../assets/profit.png";
-import seller from "../../assets/seller.png";
+import user from "../../assets/user.svg";
+import medal from "../../assets/medal.svg";
+import profit from "../../assets/profit.svg";
+import seller from "../../assets/seller.svg";
 import SubscriptionGrowth from "./SubscriptionGrowth";
 import SellerGrowth from "./SellerGrowth";
 import RecentSellerRequests from "./RecentSellerRequests";
@@ -46,7 +46,11 @@ function DashboardPage() {
 
           <div className="rounded-full">
             <div className="flex items-center justify-center mb-2">
-              <img src={user} alt="User Stats Icon" className="w-16 h-12" />
+              <img
+                src={user}
+                alt="User Stats Icon"
+                className="w-[64px] h-[64px]"
+              />
             </div>
           </div>
 
@@ -56,32 +60,21 @@ function DashboardPage() {
         </div>
         <div className="flex flex-col items-center justify-center p-5 bg-white rounded-lg shadow-sm max-w-md">
           <h2 className="text-gray-700 text-lg font-medium mb-2">
-            Total Subscriptions
-          </h2>
-
-          <div className="rounded-full">
-            <div className="flex items-center justify-center mb-2">
-              <img src={medal} alt="User Stats Icon" className="w-16 h-12" />
-            </div>
-          </div>
-
-          <p className="text-gray-900 text-4xl font-bold">
-            {new Intl.NumberFormat().format(2650)}
-          </p>
-        </div>
-        <div className="flex flex-col items-center justify-center p-5 bg-white rounded-lg shadow-sm max-w-md">
-          <h2 className="text-gray-700 text-lg font-medium mb-2">
             Total Income
           </h2>
 
           <div className="rounded-full">
             <div className="flex items-center justify-center mb-2">
-              <img src={profit} alt="User Stats Icon" className="w-16 h-12" />
+              <img
+                src={medal}
+                alt="User Stats Icon"
+                className="w-[64px] h-[64px]"
+              />
             </div>
           </div>
 
           <p className="text-gray-900 text-4xl font-bold">
-            {new Intl.NumberFormat().format(26500)}
+            ${new Intl.NumberFormat().format(2650)}
           </p>
         </div>
         <div className="flex flex-col items-center justify-center p-5 bg-white rounded-lg shadow-sm max-w-md">
@@ -91,7 +84,30 @@ function DashboardPage() {
 
           <div className="rounded-full">
             <div className="flex items-center justify-center mb-2">
-              <img src={seller} alt="User Stats Icon" className="w-16 h-12" />
+              <img
+                src={profit}
+                alt="User Stats Icon"
+                className="w-[64px] h-[64px]"
+              />
+            </div>
+          </div>
+
+          <p className="text-gray-900 text-4xl font-bold">
+            {new Intl.NumberFormat().format(26500)}
+          </p>
+        </div>
+        <div className="flex flex-col items-center justify-center p-5 bg-white rounded-lg shadow-sm max-w-md">
+          <h2 className="text-gray-700 text-lg font-medium mb-2">
+            Total Subscribers
+          </h2>
+
+          <div className="rounded-full">
+            <div className="flex items-center justify-center mb-2">
+              <img
+                src={seller}
+                alt="User Stats Icon"
+                className="w-[64px] h-[64px]"
+              />
             </div>
           </div>
 
@@ -105,7 +121,7 @@ function DashboardPage() {
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">
           <div className="flex flex-col md:flex-row md:justify-between lg:justify-between items-center gap-5 my-5">
             <div>
-              <h1 className="text-xl font-semibold">Subscription Growth</h1>
+              <h1 className="text-xl font-semibold">Seller Growth</h1>
             </div>
 
             <div className="relative w-full md:w-32">
@@ -141,7 +157,7 @@ function DashboardPage() {
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">
           <div className="flex flex-col md:flex-row md:justify-between lg:justify-between items-center gap-5 my-5">
             <div>
-              <h1 className="text-xl font-semibold">Seller Growth</h1>
+              <h1 className="text-xl font-semibold">User Growth</h1>
             </div>
             <div className="relative w-full md:w-32">
               <button

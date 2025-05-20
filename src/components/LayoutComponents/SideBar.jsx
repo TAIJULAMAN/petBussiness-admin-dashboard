@@ -13,6 +13,12 @@ const AdminItems = [
     link: "/",
   },
   {
+    key: "chat",
+    label: "Chat",
+    icon: MdManageAccounts,
+    link: "/chat",
+  },
+  {
     key: "userManagement",
     label: "User Management",
     icon: FaUsers,
@@ -53,12 +59,6 @@ const AdminItems = [
     label: "Support",
     icon: MdManageAccounts,
     link: "/support",
-  },
-  {
-    key: "chat",
-    label: "Chat",
-    icon: MdManageAccounts,
-    link: "/chat",
   },
   {
     key: "settings",

@@ -31,8 +31,8 @@ const SellerGrowth = () => {
       return (
         <div className="bg-white py-2 px-3 rounded shadow border">
           <p className="text-black font-semibold">{`Month: ${month}`}</p>
-          <p className="text-[#FF914C]">{`App Users: ${appUsers}`}</p>
-          <p className="text-[#083E24]">{`Active Users: ${activeUsers}`}</p>
+          <p className="text-[#B5ED90]">{`App Users: ${appUsers}`}</p>
+          <p className="text-[#FF62BD]">{`Active Users: ${activeUsers}`}</p>
         </div>
       );
     }
@@ -54,14 +54,14 @@ const SellerGrowth = () => {
           <Legend />
           <Bar
             dataKey="appUsers"
-            fill="#FF914C"
+            fill="#FF62BD"
             barSize={30}
             radius={[5, 5, 0, 0]}
             name="App Users"
           />
           <Bar
             dataKey="activeUsers"
-            fill="#083E24"
+            fill="#B5ED90"
             barSize={30}
             radius={[5, 5, 0, 0]}
             name="Active Users"

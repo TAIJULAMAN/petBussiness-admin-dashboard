@@ -207,9 +207,9 @@ const Header = () => {
         <div className="ml-auto flex items-center justify-center gap-5">
           <div className="relative">
             <Link to={"/dashboard/Settings/notification"}>
-              <LuBell className="text-2xl text-[#0B704E] w-[40px] h-[40px]" />
+              <LuBell className="text-2xl text-[#FF62BD] w-[40px] h-[40px]" />
             </Link>
-            <span className="absolute -top-2 -right-2 bg-[#0B704E] text-xs rounded-full w-6 h-6 flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 bg-[#FF62BD] text-xs rounded-full w-6 h-6 flex items-center justify-center">
               10
             </span>
           </div>
@@ -218,12 +218,12 @@ const Header = () => {
               <div className="flex items-center gap-3">
                 <img
                   src="https://avatar.iran.liara.run/public/44"
-                  className="w-[40px] h-[40px] object-cover rounded-full border-2 border-[#0B704E]"
+                  className="w-[40px] h-[40px] object-cover rounded-full border-2 border-[#FF62BD]"
                   alt="User Avatar"
                 />
                 <div className="hidden md:flex flex-col items-start">
                   <h3 className="text-gray-800 text-sm">Shah Aman</h3>
-                  <p className="text-xs px-2 py-1 bg-[#ebfcf4] text-[#15803D] rounded">
+                  <p className="text-xs px-2 py-1 bg-[#ebfcf4] text-[#FF62BD] rounded">
                     Admin
                   </p>
                 </div>
