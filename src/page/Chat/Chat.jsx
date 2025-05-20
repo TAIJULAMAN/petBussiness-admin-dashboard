@@ -86,11 +86,11 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex bg-gray-50 overflow-hidden max-h-screen">
       {/* Left sidebar - Conversations */}
       {(!isMobileView || showConversationList) && (
         <div className="w-full md:w-1/3 border-r border-gray-200 flex flex-col">
-          <div className="p-4 border-b border-gray-200 flex items-center gap-2">
+          <div className="px-5 py-6 border-b border-gray-200 flex items-center gap-2">
             <Link href="#" className="text-pink-500">
               <FiArrowLeft className="h-5 w-5" />
             </Link>
@@ -126,7 +126,7 @@ export default function Chat() {
 
       {/* Right side - Active conversation */}
       {(!isMobileView || !showConversationList) && activeConversation && (
-        <div className="flex flex-col w-full md:w-2/3">
+        <div className="flex flex-col w-full md:w-2/3 overflow-hidden h-[calc(100vh-12rem)]">
           <div className="p-4 border-b border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {isMobileView && (
@@ -175,7 +175,7 @@ export default function Chat() {
             </button>
           </div>
 
-          <div className="flex-1 p-4 overflow-y-auto">
+          <div className="flex-1 p-4 h-[calc(100vh-12rem)] overflow-y-auto">
             <div className="space-y-4">
               {activeConversation.messages.map((message) => {
                 const isCurrentUser = message.senderId === currentUserId;

@@ -24,11 +24,15 @@ function MessageBubble({ message, sender, isCurrentUser }) {
             : "bg-pink-400 text-white rounded-t-2xl rounded-br-2xl"
         }`}
       >
-        {message.text && <p>{message.text}</p>}
+        {message.text && (
+          <div className="max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pr-2">
+            <p className="whitespace-pre-wrap">{message.text}</p>
+          </div>
+        )}
 
         {message.attachments &&
           message.attachments.map((attachment) => (
-            <div key={attachment.id} className="mt-2">
+            <div key={attachment.id} className="mt-2 max-h-[150px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
               {isCurrentUser ? (
                 <>
                   <p className="text-pink-500">({attachment.size})</p>

@@ -32,15 +32,7 @@ function ChatListItem({ conversation, currentUserId, isActive, onClick }) {
       )}
       <div className="flex-1 min-w-0">
         <h3 className="font-semibold">{otherParticipant.name}</h3>
-        <p
-          className={`text-sm truncate ${
-            otherParticipant.name === "Jeff Bezos"
-              ? "text-white bg-pink-400 rounded-full px-2 py-1"
-              : "text-gray-500"
-          }`}
-        >
-          {displayMessage}
-        </p>
+        <p className="text-sm truncate">{displayMessage}</p>
       </div>
       <span className="text-xs text-gray-400">{formatMessageTime(lastMessage.timestamp)}</span>
     </div>
