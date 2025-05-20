@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FiFileText } from "react-icons/fi"
-import { formatMessageTime } from "@/lib/utils"
+import { formatMessageTime } from "../../../utils/utils"
 
 function MessageBubble({ message, sender, isCurrentUser }) {
   return (

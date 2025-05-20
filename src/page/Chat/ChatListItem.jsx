@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FaUserCircle } from "react-icons/fa"
-import { formatMessageTime, getOtherParticipant, getLastMessage } from "@/lib/utils"
+import { formatMessageTime, getOtherParticipant, getLastMessage } from "../../../utils/utils"
 
 function ChatListItem({ conversation, currentUserId, isActive, onClick }) {
   const otherParticipant = getOtherParticipant(conversation.participants, currentUserId)

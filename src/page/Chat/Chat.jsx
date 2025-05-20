@@ -1,192 +1,228 @@
-import { useState } from "react";
-import { FaCheck } from "react-icons/fa";
-import { FiMoreVertical } from "react-icons/fi";
-import { IoSend } from "react-icons/io5";
-import { LuFileText } from "react-icons/lu";
-import PageHeading from "../../shared/PageHeading";
-function Chat() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      id: "1",
-      content:
-        "Hello! Finally found the time to write to you:) I need your help in creating interactive animations for my mobile application.",
-      sender: "contact",
-      timestamp: "4 days ago",
-    },
-    {
-      id: "2",
-      content: "Can I send you files?",
-      sender: "contact",
-      timestamp: "4 days ago",
-    },
-    {
-      id: "3",
-      content: "Hey! Okay, send out.",
-      sender: "user",
-      timestamp: "4 days ago",
-    },
-    {
-      id: "4",
-      content: "",
-      sender: "contact",
-      timestamp: "4 days ago",
-      file: {
-        name: "Style.zip",
-        size: "41.36 MB",
-      },
-    },
-    {
-      id: "5",
-      content:
-        "Hello! I tweaked everything you asked. I am sending the finished file.",
-      sender: "user",
-      timestamp: "3 days ago",
-      file: {
-        name: "NEW_Style.zip",
-        size: "52.05 MB",
-      },
-    },
-  ]);
+import { useState, useEffect, useRef } from "react";
+import { FiArrowLeft, FiSearch, FiSend, FiMoreVertical } from "react-icons/fi";
+import { conversation, users } from ".././../../utils/data";
+import { getOtherParticipant } from ".././../../utils/utils";
+import ChatListItem from "./ChatListItem";
+import MessageBubble from "./MessageBubble";
+import { Link } from "react-router-dom";
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (input.trim()) {
-      setMessages([
-        ...messages,
-        {
-          id: Date.now().toString(),
-          content: input,
-          sender: "user",
-          timestamp: "Just now",
-        },
-      ]);
-      setInput("");
+export default function Chat() {
+  const [activeConversation, setActiveConversation] = useState(null);
+  const [allConversations, setAllConversations] = useState(conversation);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [newMessage, setNewMessage] = useState("");
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [showConversationList, setShowConversationList] = useState(true);
+  const messagesEndRef = useRef(null);
+
+  const currentUserId = "current-user";
+  const currentUser = users.find((user) => user.id === currentUserId);
+
+  const filteredConversations = allConversations.filter((conv) => {
+    const otherParticipant = getOtherParticipant(
+      conv.participants,
+      currentUserId
+    );
+    return otherParticipant?.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+  });
+
+  useEffect(() => {
+    if (allConversations.length > 0 && !activeConversation) {
+      setActiveConversation(allConversations[0]);
+    }
+  }, [allConversations, activeConversation]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [activeConversation?.messages]);
+
+  const handleSendMessage = () => {
+    if (!newMessage.trim() || !activeConversation) return;
+
+    const newMsg = {
+      id: `msg-${Date.now()}`,
+      senderId: currentUserId,
+      text: newMessage,
+      timestamp: new Date(),
+      read: false,
+    };
+
+    const updatedConversation = {
+      ...activeConversation,
+      messages: [...activeConversation.messages, newMsg],
+      lastMessageAt: new Date(),
+    };
+
+    const updatedConversations = allConversations.map((conv) =>
+      conv.id === activeConversation.id ? updatedConversation : conv
+    );
+
+    setActiveConversation(updatedConversation);
+    setAllConversations(updatedConversations);
+    setNewMessage("");
+  };
+
+  const handleSelectConversation = (conversation) => {
+    setActiveConversation(conversation);
+    if (isMobileView) {
+      setShowConversationList(false);
     }
   };
 
+  const handleBackToList = () => {
+    setShowConversationList(true);
+  };
+
   return (
-    <>
-      <div className="my-5 flex justify-start items-center">
-        <PageHeading title="Chat" />
-      </div>
-      <div className="flex justify-center items-center">
-        <div className="flex h-screen max-w-3xl flex-col">
-          {/* Header */}
-          <div className="border-b p-4">
-            <div className="flex items-center gap-3">
-              <img
-                src="https://avatar.iran.liara.run/public/20"
-                alt="Profile"
-                width={40}
-                height={40}
-                className="rounded-full object-cover"
-              />
-
-              <div>
-                <h2 className="font-medium">Nika Jerrardo</h2>
-                <p className="text-xs text-orange-500">
-                  last online 5 hours ago
-                </p>
-              </div>
-            </div>
+    <div className="flex h-screen bg-gray-50">
+      {/* Left sidebar - Conversations */}
+      {(!isMobileView || showConversationList) && (
+        <div className="w-full md:w-1/3 border-r border-gray-200 flex flex-col">
+          <div className="p-4 border-b border-gray-200 flex items-center gap-2">
+            <Link href="#" className="text-pink-500">
+              <FiArrowLeft className="h-5 w-5" />
+            </Link>
+            <h1 className="text-xl font-semibold">Chat</h1>
           </div>
 
-          {/* Chat Messages */}
-          <div className="flex-1 p-5">
-            <div className="space-y-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${
-                    message.sender === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  {message.sender === "contact" && (
-                    <div className="mr-2 mt-1">
-                      <img
-                        src="https://avatar.iran.liara.run/public/21"
-                        alt="Contact"
-                        width={32}
-                        height={32}
-                        className="rounded-full object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="">
-                    <div
-                      className={`relative rounded-lg p-3 ${
-                        message.sender === "user"
-                          ? "bg-white text-gray-800"
-                          : "bg-orange-400 text-white"
-                      }`}
-                    >
-                      {message.content && <p>{message.content}</p>}
-
-                      {message.file && (
-                        <div
-                          className={`mt-2 flex items-center rounded-md ${
-                            message.sender === "user"
-                              ? "bg-gray-100"
-                              : "bg-orange-300"
-                          } p-2`}
-                        >
-                          <LuFileText className="mr-2 h-5 w-5" />
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">
-                              {message.file.name}
-                            </p>
-                            <p className="text-xs">{message.file.size}</p>
-                          </div>
-                          {message.sender === "user" && (
-                            <div className="ml-2 rounded-full bg-white p-1">
-                              <FaCheck className="h-4 w-4 text-green-500" />
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      <button
-                        className="absolute -right-10 top-0 h-8 w-8 text-gray-400"
-                        style={{ background: "none", border: "none" }}
-                      >
-                        <FiMoreVertical className="h-4 w-4" />
-                      </button>
-                    </div>
-                    <div className="mt-1 text-right text-xs text-gray-500">
-                      {message.timestamp}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Message Input */}
-          <div className="border-t p-4">
-            <form
-              onSubmit={handleSendMessage}
-              className="flex items-center gap-2"
-            >
+          <div className="p-4">
+            <div className="relative">
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
                 type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type a message here"
-                className="flex-1 p-2 border rounded"
+                placeholder="Search messenger..."
+                className="w-full bg-gray-200 rounded-full py-2 pl-10 pr-4 text-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button
-                type="submit"
-                className="h-10 w-10 rounded-full bg-orange-400 text-white hover:bg-orange-500"
-              >
-                <IoSend className="h-5 w-5 ml-2.5" />
-              </button>
-            </form>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto">
+            {filteredConversations.map((conversation) => (
+              <ChatListItem
+                key={conversation.id}
+                conversation={conversation}
+                currentUserId={currentUserId}
+                isActive={activeConversation?.id === conversation.id}
+                onClick={() => handleSelectConversation(conversation)}
+              />
+            ))}
           </div>
         </div>
-      </div>
-    </>
+      )}
+
+      {/* Right side - Active conversation */}
+      {(!isMobileView || !showConversationList) && activeConversation && (
+        <div className="flex flex-col w-full md:w-2/3">
+          <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {isMobileView && (
+                <button onClick={handleBackToList} className="text-pink-500">
+                  <FiArrowLeft className="h-5 w-5" />
+                </button>
+              )}
+
+              {activeConversation && (
+                <>
+                  <img
+                    src={
+                      getOtherParticipant(
+                        activeConversation.participants,
+                        currentUserId
+                      )?.avatar || "/placeholder.svg"
+                    }
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                    className="rounded-full object-cover"
+                  />
+                  <div>
+                    <h2 className="font-semibold">
+                      {
+                        getOtherParticipant(
+                          activeConversation.participants,
+                          currentUserId
+                        )?.name
+                      }
+                    </h2>
+                    <p className="text-xs text-pink-500">
+                      {getOtherParticipant(
+                        activeConversation.participants,
+                        currentUserId
+                      )?.online
+                        ? "online"
+                        : "offline"}
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
+            <button className="text-gray-400">
+              <FiMoreVertical className="h-6 w-6" />
+            </button>
+          </div>
+
+          <div className="flex-1 p-4 overflow-y-auto">
+            <div className="space-y-4">
+              {activeConversation.messages.map((message) => {
+                const isCurrentUser = message.senderId === currentUserId;
+                const sender = isCurrentUser
+                  ? currentUser
+                  : getOtherParticipant(
+                      activeConversation.participants,
+                      currentUserId
+                    );
+
+                return (
+                  <MessageBubble
+                    key={message.id}
+                    message={message}
+                    sender={sender}
+                    isCurrentUser={isCurrentUser}
+                  />
+                );
+              })}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+
+          <div className="p-4 border-t border-gray-200">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Type a message here"
+                className="w-full bg-gray-100 rounded-full py-3 px-4 pr-12"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSendMessage();
+                  }
+                }}
+              />
+              <button
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-pink-500 text-white p-2 rounded-full"
+                onClick={handleSendMessage}
+              >
+                <FiSend className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
-
-export default Chat;
