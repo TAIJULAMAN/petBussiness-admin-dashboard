@@ -45,7 +45,7 @@ export default function UpdateSubscription() {
       <PageHeading title="Subscription Management" />
       {/* Subscription Update Form */}
       <div className="flex justify-center items-center mt-5">
-        <div className="p-5 bg-white shadow-md rounded-lg max-w-[900px] w-full space-y-5">
+        <div className="p-5 bg-white shadow-md rounded-lg max-w-[700px] w-full space-y-5">
           <div className="space-y-5">
             <div className="mb-5">
               <label
@@ -58,12 +58,12 @@ export default function UpdateSubscription() {
                 id="subscription-type"
                 value={subscriptionType}
                 onChange={(e) => setSubscriptionType(e.target.value)}
-                className="px-5 py-3 bg-white block w-full text-gray-600 border-2 border-[#FF914C] rounded-lg outline-none"
+                className="px-5 py-3 bg-white block w-full text-gray-600 border-2 border-[#FF62BD] rounded-lg outline-none"
                 style={{
                   backgroundColor:
                     subscriptionType === "Basic" ||
                     subscriptionType === "Premium"
-                      ? "#FF914C"
+                      ? "#FF62BD"
                       : "white",
                 }}
               >
@@ -84,7 +84,7 @@ export default function UpdateSubscription() {
                 type="number"
                 value={newPrice}
                 onChange={(e) => setNewPrice(e.target.value)}
-                className="px-5 py-3 bg-white block w-full text-gray-600 border-2 border-[#FF914C] rounded-lg outline-none"
+                className="px-5 py-3 bg-white block w-full text-gray-600 border-2 border-[#FF62BD] rounded-lg outline-none"
               />
             </div>
           </div>
@@ -114,7 +114,7 @@ export default function UpdateSubscription() {
                     );
                     setCities(updatedCities);
                   }}
-                  className="px-5 py-3 bg-white block w-full text-gray-600 border-2 border-[#FF914C] rounded-lg outline-none"
+                  className="px-5 py-3 bg-white block w-full text-gray-600 border-2 border-[#FF62BD] rounded-lg outline-none"
                 />
               </div>
             ))}
@@ -123,7 +123,7 @@ export default function UpdateSubscription() {
           <div className="flex justify-end items-center my-4">
             <button
               onClick={handleAddCity}
-              className="rounded-full bg-green-600 text-white p-2"
+              className="rounded-full bg-[#91DF92] text-white p-2"
             >
               <GoPlus className="h-5 w-5" />
             </button>
@@ -138,7 +138,7 @@ export default function UpdateSubscription() {
             </button>
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg w-full"
+              className="px-4 py-2 bg-[#91DF92] text-[#000] rounded-lg w-full"
             >
               Save
             </button>
