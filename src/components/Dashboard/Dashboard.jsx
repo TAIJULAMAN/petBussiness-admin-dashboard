@@ -190,7 +190,7 @@ function DashboardPage() {
         </div>
       </div>
       <div className="mt-5">
-        <h1 className="text-2xl font-bold mb-5">Recent Seller Requests</h1>
+        <h1 className="text-2xl font-bold mb-5">Business owners Requests</h1>
         <RecentSellerRequests showModal={showModal} />
       </div>
       <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null}>

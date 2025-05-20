@@ -20,13 +20,13 @@ const AdminItems = [
   },
   {
     key: "userManagement",
-    label: "User Management",
+    label: "Pet owners",
     icon: FaUsers,
     link: "/dashboard/user-management",
   },
   {
     key: "sellermanagement",
-    label: "Seller Management",
+    label: "Business owners",
     icon: MdManageAccounts,
     link: "/dashboard/seller-management",
   },
