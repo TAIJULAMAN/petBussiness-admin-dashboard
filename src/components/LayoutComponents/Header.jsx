@@ -1,9 +1,8 @@
 import { LuBell } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars, FaFileAlt, FaUsers } from "react-icons/fa";
+import { FaBars, FaCog, FaFileAlt, FaUsers } from "react-icons/fa";
 import { useRef, useState } from "react";
 import { Drawer } from "antd";
-import settings from "../../assets/routerImg/settings.png";
 import logo from "../../assets/header/logo.png";
 import { FaChevronRight } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
@@ -17,14 +16,20 @@ const items = [
     link: "/",
   },
   {
+    key: "chat",
+    label: "Chat",
+    icon: MdManageAccounts,
+    link: "/chat",
+  },
+  {
     key: "userManagement",
-    label: "User Management",
+    label: "Pet owners",
     icon: FaUsers,
     link: "/dashboard/user-management",
   },
   {
     key: "sellermanagement",
-    label: "Seller Management",
+    label: "Business owners",
     icon: MdManageAccounts,
     link: "/dashboard/seller-management",
   },
@@ -32,30 +37,36 @@ const items = [
     key: "subscription",
     label: "Subscription",
     icon: FaFileAlt,
-    link: "/dashboard/report",
-  },
-  {
-    key: "categorymanagement",
-    label: "Category Management",
-    icon: MdManageAccounts,
-    link: "",
+    link: "/dashboard/subscription",
   },
   {
     key: "premiumSubscribers",
-    label: "Premium Subscribers",
+    label: "Subscribers",
     icon: MdManageAccounts,
-    link: "",
+    link: "/premium-subscribers",
+  },
+  {
+    key: "categorymanagement",
+    label: "Category",
+    icon: MdManageAccounts,
+    link: "/category-management",
+  },
+  {
+    key: "adPromotion",
+    label: "Ads Promotion",
+    icon: MdManageAccounts,
+    link: "/ads-promotion",
   },
   {
     key: "support",
     label: "Support",
     icon: MdManageAccounts,
-    link: "",
+    link: "/support",
   },
   {
     key: "settings",
     label: "Settings",
-    icon: settings,
+    icon: FaCog,
     link: "/dashboard/Settings/profile",
     children: [
       {
@@ -72,6 +83,11 @@ const items = [
         key: "privacy",
         label: "Privacy Policy",
         link: "/dashboard/Settings/PrivacyPolicy",
+      },
+      {
+        key: "faq",
+        label: "Faq",
+        link: "/faq",
       },
     ],
   },
@@ -125,11 +141,11 @@ const Header = () => {
               {items.map((item) => (
                 <div key={item.key}>
                   <Link
-                    to={item.link}
+                    to={item?.link}
                     className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
-                      selectedKey === item.key
+                      selectedKey === item?.key
                         ? "bg-[#0B704E] text-white rounded-md"
-                        : "bg-white rounded-md hover:bg-[#B3D3C8]"
+                        : "bg-white rounded-md"
                     }`}
                     onClick={(e) => {
                       if (item.children) {
@@ -141,14 +157,18 @@ const Header = () => {
                       }
                     }}
                   >
-                    <img src={item.icon} alt={item.label} className="w-6 h-6" />
+                    <img
+                      src={item?.icon}
+                      alt={item?.label}
+                      className="w-6 h-6"
+                    />
                     <span className="ml-3 text-base font-medium">
-                      {item.label}
+                      {item?.label}
                     </span>
-                    {item.children && (
+                    {item?.children && (
                       <FaChevronRight
                         className={`ml-auto transform transition-all duration-300 ${
-                          expandedKeys.includes(item.key) ? "rotate-90" : ""
+                          expandedKeys.includes(item?.key) ? "rotate-90" : ""
                         }`}
                       />
                     )}
@@ -157,31 +177,31 @@ const Header = () => {
                   {item.children && (
                     <div
                       className={`children-menu bg-white -my-2 mx-5 text-black transition-all duration-300 ${
-                        expandedKeys.includes(item.key) ? "expanded" : ""
+                        expandedKeys.includes(item?.key) ? "expanded" : ""
                       }`}
                       style={{
                         maxHeight: expandedKeys.includes(item.key)
-                          ? `${contentRef.current[item.key]?.scrollHeight}px`
+                          ? `${contentRef.current[item?.key]?.scrollHeight}px`
                           : "0",
                       }}
-                      ref={(el) => (contentRef.current[item.key] = el)}
+                      ref={(el) => (contentRef.current[item?.key] = el)}
                     >
                       {item.children.map((child) => (
                         <Link
-                          key={child.key}
-                          to={child.link}
+                          key={child?.key}
+                          to={child?.link}
                           className={`menu-item p-4 flex items-center cursor-pointer ${
-                            selectedKey === child.key
+                            selectedKey === child?.key
                               ? "bg-[#0B704E] text-white"
                               : "hover:bg-[#B3D3C8]"
                           }`}
                           onClick={() => {
-                            setSelectedKey(child.key);
+                            setSelectedKey(child?.key);
                             setExpandedKeys([]);
                             onClose();
                           }}
                         >
-                          <span className="ml-8">{child.label}</span>
+                          <span className="ml-8">{child?.label}</span>
                         </Link>
                       ))}
                     </div>
