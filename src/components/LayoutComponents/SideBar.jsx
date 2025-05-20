@@ -37,16 +37,16 @@ const AdminItems = [
     link: "/dashboard/subscription",
   },
   {
-    key: "categorymanagement",
-    label: "Category Management",
-    icon: MdManageAccounts,
-    link: "/category-management",
-  },
-  {
     key: "premiumSubscribers",
-    label: "Premium Subscribers",
+    label: "Subscribers",
     icon: MdManageAccounts,
     link: "/premium-subscribers",
+  },
+    {
+    key: "categorymanagement",
+    label: "Category",
+    icon: MdManageAccounts,
+    link: "/category-management",
   },
   {
     key: "adPromotion",
@@ -138,7 +138,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="min-h-[100vh] bg-[#B5ED90]">
+    <div className="min-h-[100vh] bg-[#B5ED90] overflow-y-auto">
       <div className="custom-sidebar-logo flex justify-center">
         <img src={logo} alt="Logo" className="w-[95px]" />
       </div>

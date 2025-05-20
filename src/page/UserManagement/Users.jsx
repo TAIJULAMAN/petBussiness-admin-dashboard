@@ -231,16 +231,16 @@ const Users = () => {
   const columns = [
     { title: "No", dataIndex: "no", key: "no" },
     {
-      title: "User Name",
+      title: "Pet Owner Name",
       key: "userName",
       render: (_, record) => (
         <div className="flex items-center gap-3">
           <img
-            src={`https://avatar.iran.liara.run/public/${record.no}`}
+            src={`https://avatar.iran.liara.run/public/${record?.no}`}
             className="w-10 h-10 object-cover rounded-full"
             alt="User Avatar"
           />
-          <span>{record.userName}</span>
+          <span>{record?.userName}</span>
         </div>
       ),
     },
@@ -263,12 +263,12 @@ const Users = () => {
   return (
     <>
       <div className="my-5 md:my-10 flex flex-col md:flex-row gap-5 justify-between items-center">
-        <PageHeading title="User Management" />
+        <PageHeading title="Pet Owner Management" />
         <div className="relative w-full sm:w-[300px] mt-5 md:mt-0 lg:mt-0">
           <input
             type="text"
             placeholder="Search..."
-            className="border-2 border-orange-500 py-3 pl-12 pr-[65px] outline-none w-full rounded-md"
+            className="border-2 border-[#FF62BD] py-3 pl-12 pr-[65px] outline-none w-full rounded-md"
           />
           <span className=" text-gray-600 absolute top-0 left-0 h-full px-5 flex items-center justify-center rounded-r-md cursor-pointer">
             <IoSearch className="text-[1.3rem]" />
