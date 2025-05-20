@@ -1,5 +1,4 @@
 import { ConfigProvider, Modal, Table, Tag } from "antd";
-import { IoSearch } from "react-icons/io5";
 import PageHeading from "../../shared/PageHeading";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -8,8 +7,9 @@ import { RxCross2 } from "react-icons/rx";
 import { GoPlus } from "react-icons/go";
 
 const CategoryManagement = () => {
-  const [categoryName, setCategoryName] = useState("Hodh El Gharbi");
+  const [categoryName, setCategoryName] = useState("");
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [addModalOpen2, setAddModalOpen2] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOk = () => {
     setIsModalOpen(false);
@@ -25,6 +25,12 @@ const CategoryManagement = () => {
   };
   const showModal3 = () => {
     setAddModalOpen(true);
+  };
+  const handleCancel3 = () => {
+    setAddModalOpen2(false);
+  };
+  const showModal4 = () => {
+    setAddModalOpen2(true);
   };
 
   const [cities, setCities] = useState([
@@ -47,142 +53,44 @@ const CategoryManagement = () => {
     {
       key: "1",
       no: "1",
-      categoryName: "Women",
+      categoryName: "Pet Vets",
       subCategoriesName:
-        "Clothing, Dresses, Top Brand, Pants & Jeans, Shoes & Accessories, Beauty, Accessories",
+        "Vaccinations, Surgery, Dental Care, Wellness Exams, Emergency Care, Diagnostics",
     },
     {
       key: "2",
       no: "2",
-      categoryName: "Men",
+      categoryName: "Pet shops",
       subCategoriesName:
-        "Clothing, Suits & Blazers, Jeans, Shoes, Accessories, Watches, Sportswear",
+        "Pet Food, Toys, Collars & Leashes, Bedding, Aquatic Supplies, Treats, Grooming Products",
     },
     {
       key: "3",
       no: "3",
-      categoryName: "Kids",
+      categoryName: "Pet Grooming",
       subCategoriesName:
-        "Tops, Bottoms, Dresses, Shoes, Accessories, Outerwear, Toys & Games",
+        "Bathing, Haircuts, Nail Trimming, Ear Cleaning, De-shedding, Styling, Spa Treatments",
     },
     {
       key: "4",
       no: "4",
-      categoryName: "Home",
+      categoryName: "Pet Hotels",
       subCategoriesName:
-        "Furniture, Kitchen, Bedding, Decor, Lighting, Appliances, Storage",
+        "Boarding, Daycare, Training, Play Areas, Feeding Services, Medical Care, Special Needs Care",
     },
     {
       key: "5",
       no: "5",
-      categoryName: "Electronics",
+      categoryName: "Pet Training",
       subCategoriesName:
-        "Smartphones, Laptops, Tablets, Accessories, Wearables, Audio, Cameras",
+        "Obedience Training, Agility Training, Behavior Modification, Puppy Training, Private Lessons",
     },
     {
       key: "6",
       no: "6",
-      categoryName: "Beauty",
+      categoryName: "Friendly Place",
       subCategoriesName:
-        "Skincare, Makeup, Haircare, Fragrances, Tools & Brushes, Health & Wellness",
-    },
-    {
-      key: "7",
-      no: "7",
-      categoryName: "Sports",
-      subCategoriesName:
-        "Clothing, Footwear, Accessories, Equipment, Outdoor, Fitness Gear",
-    },
-    {
-      key: "8",
-      no: "8",
-      categoryName: "Toys & Games",
-      subCategoriesName:
-        "Board Games, Action Figures, Dolls, Building Blocks, Educational Toys",
-    },
-    {
-      key: "9",
-      no: "9",
-      categoryName: "Books",
-      subCategoriesName:
-        "Fiction, Non-Fiction, Children's Books, Textbooks, E-books, Audiobooks",
-    },
-    {
-      key: "10",
-      no: "10",
-      categoryName: "Food & Drink",
-      subCategoriesName:
-        "Snacks, Beverages, Groceries, Organic, Gourmet, Health Foods",
-    },
-    {
-      key: "11",
-      no: "11",
-      categoryName: "Health",
-      subCategoriesName:
-        "Supplements, Wellness, Medical Equipment, Personal Care, Fitness",
-    },
-    {
-      key: "12",
-      no: "12",
-      categoryName: "Automotive",
-      subCategoriesName:
-        "Parts, Accessories, Tires, Tools, Car Electronics, Maintenance",
-    },
-    {
-      key: "13",
-      no: "13",
-      categoryName: "Books",
-      subCategoriesName:
-        "Cookbooks, Self-Help, Fiction, History, Science, Graphic Novels",
-    },
-    {
-      key: "14",
-      no: "14",
-      categoryName: "Garden",
-      subCategoriesName:
-        "Plants, Furniture, Outdoor Decor, Tools, Outdoor Lighting, Planters",
-    },
-    {
-      key: "15",
-      no: "15",
-      categoryName: "Pets",
-      subCategoriesName:
-        "Food, Accessories, Toys, Health, Bedding, Training, Grooming",
-    },
-    {
-      key: "16",
-      no: "16",
-      categoryName: "Office Supplies",
-      subCategoriesName:
-        "Furniture, Stationery, Printers, Organizers, Technology, Office Decor",
-    },
-    {
-      key: "17",
-      no: "17",
-      categoryName: "Music",
-      subCategoriesName:
-        "Instruments, Audio Equipment, Vinyl Records, Music Gear, Sheet Music",
-    },
-    {
-      key: "18",
-      no: "18",
-      categoryName: "Travel",
-      subCategoriesName:
-        "Luggage, Travel Accessories, Outdoor Gear, Maps, Vacation Packages",
-    },
-    {
-      key: "19",
-      no: "19",
-      categoryName: "Art & Crafts",
-      subCategoriesName:
-        "Painting, Drawing, DIY Kits, Sculpture, Craft Supplies, Fabric & Sewing",
-    },
-    {
-      key: "20",
-      no: "20",
-      categoryName: "Technology",
-      subCategoriesName:
-        "Computers, Smartphones, Gadgets, VR, Smart Home, 3D Printing",
+        "Pet Friendly Cafes, Parks, Beaches, Hotels, Hiking Trails, Events, Social Meetups",
     },
   ];
 
@@ -235,16 +143,14 @@ const CategoryManagement = () => {
     <>
       <div className="my-5 md:my-10 flex flex-col md:flex-row gap-5 justify-between items-center">
         <PageHeading title="Category Management" />
-        <div className="relative w-full sm:w-[300px] mt-5 md:mt-0 lg:mt-0">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border-2 border-orange-500 py-3 pl-12 pr-[65px] outline-none w-full rounded-md"
-          />
-          <span className=" text-gray-600 absolute top-0 left-0 h-full px-5 flex items-center justify-center rounded-r-md cursor-pointer">
-            <IoSearch className="text-[1.3rem]" />
-          </span>
-        </div>
+        {/* <div className="relative w-full sm:w-[300px] mt-5 md:mt-0 lg:mt-0"> */}
+        <button
+          onClick={showModal4}
+          className="bg-[#FF62BD] text-white px-4 py-3 rounded-lg"
+        >
+          + Add Category
+        </button>
+        {/* </div> */}
       </div>
       <ConfigProvider
         theme={{
@@ -280,6 +186,36 @@ const CategoryManagement = () => {
           pagination={{ pageSize: 10 }}
           scroll={{ x: "max-content" }}
         />
+
+        <Modal
+          open={isModalOpen}
+          centered
+          onCancel={handleCancel}
+          footer={null}
+        >
+          <div className="p-5">
+            <h1 className="text-4xl text-center text-[#0D0D0D]">
+              Are you sure you want to Delete ?
+            </h1>
+
+            <div className="text-center py-5">
+              <button
+                onClick={handleOk}
+                className="bg-[#14803c] text-white font-semibold w-full py-2 rounded transition duration-200"
+              >
+                Yes,Delete
+              </button>
+            </div>
+            <div className="text-center pb-5">
+              <button
+                onClick={handleOk}
+                className="text-[#14803c] border-2 border-green-600 bg-white font-semibold w-full py-2 rounded transition duration-200"
+              >
+                No,Don’t Delete
+              </button>
+            </div>
+          </div>
+        </Modal>
         <Modal
           open={addModalOpen}
           centered
@@ -357,30 +293,77 @@ const CategoryManagement = () => {
           </div>
         </Modal>
         <Modal
-          open={isModalOpen}
+          open={addModalOpen2}
           centered
-          onCancel={handleCancel}
+          onCancel={handleCancel3}
           footer={null}
         >
           <div className="p-5">
-            <h1 className="text-4xl text-center text-[#0D0D0D]">
-              Are you sure you want to Delete ?
-            </h1>
-
-            <div className="text-center py-5">
-              <button
-                onClick={handleOk}
-                className="bg-[#14803c] text-white font-semibold w-full py-2 rounded transition duration-200"
-              >
-                Yes,Delete
-              </button>
+            {/* Header */}
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold mb-2">Add Category</h2>
+              <p className="text-gray-600">Add the category details below</p>
             </div>
-            <div className="text-center pb-5">
+
+            {/* Category Name Input */}
+            <div className="mb-6">
+              <label className="block text-gray-800 mb-2">Catagory Name</label>
+              <input
+                type="text"
+                placeholder="Enter Name here"
+                className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-4">
+              {cities.map((city, index) => (
+                <div key={city.id} className="space-y-1">
+                  <div className="flex justify-between items-center">
+                    <label className="font-medium">
+                      Sub Categories {String(index + 1).padStart(2, "0")}
+                    </label>
+                    <button
+                      onClick={() => handleClearCity(city.id)}
+                      className="text-gray-400 hover:text-gray-600"
+                    >
+                      <RxCross2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <input
+                    placeholder={`Features ${String(index + 1).padStart(
+                      2,
+                      "0"
+                    )}`}
+                    className="w-full border rounded-md p-2"
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-end items-center my-4 text-white">
+              <div className="flex justify-center items-center text-center">
+                <button
+                  onClick={handleAddCity}
+                  className="rounded-full bg-green-600  text-white p-2"
+                >
+                  <GoPlus className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+            {/* buttons */}
+            <div className="grid grid-cols-2 gap-4 mt-6">
               <button
-                onClick={handleOk}
-                className="text-[#14803c] border-2 border-green-600 bg-white font-semibold w-full py-2 rounded transition duration-200"
+                onClick={handleCancel3}
+                className="py-2 px-4 rounded-lg border border-[#EF4444] bg-red-50"
               >
-                No,Don’t Delete
+                Cancel
+              </button>
+
+              <button
+                onClick={handleCancel3}
+                className="py-2 px-4 rounded-lg bg-green-600 text-white"
+              >
+                Save
               </button>
             </div>
           </div>

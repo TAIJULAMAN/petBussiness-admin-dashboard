@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
-import img1 from "../../assets/ads.png";
-import img2 from "../../assets/ads2.png";
-import img3 from "../../assets/ads3.png";
+import img1 from "../../assets/pet1.png";
+import img2 from "../../assets/pet2.png";
+import img3 from "../../assets/pet3.png";
 import PageHeading from "../../shared/PageHeading";
 import { Modal } from "antd";
 import { FaTrashAlt, FaUpload } from "react-icons/fa";
@@ -56,7 +56,7 @@ export default function AdPromotion() {
         <div className="flex justify-end items-center">
           <button
             onClick={showModal2}
-            className="bg-[#FF914C] text-white px-4 py-3 rounded-lg hover:bg-[#FF914C]/80"
+            className="bg-[#FF62BD] text-white px-4 py-3 rounded-lg"
           >
             + Add New Promotion
           </button>
@@ -203,7 +203,7 @@ function AdCard({ campaign }) {
     setUploadedImage({ name: "", url: "" });
   };
   return (
-    <div className="bg-amber-200 rounded-lg overflow-hidden shadow-md">
+    <div className="bg-[#FF62BD] rounded-lg overflow-hidden shadow-md">
       <div className="p-4 pb-0">
         <div className="flex justify-between items-center mb-3">
           <h2 className="font-bold text-lg">{campaign.title}</h2>

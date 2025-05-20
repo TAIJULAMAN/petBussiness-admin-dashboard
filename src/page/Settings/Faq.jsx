@@ -77,7 +77,7 @@ const Faq = () => {
         <div className="text-white">
           <button
             onClick={showModal2}
-            className="bg-[#14803c] text-white font-semibold px-5 py-2 rounded transition duration-200"
+            className="bg-[#FF62BD] text-white font-semibold px-5 py-2 rounded transition duration-200"
           >
             + Add FAQ
           </button>
