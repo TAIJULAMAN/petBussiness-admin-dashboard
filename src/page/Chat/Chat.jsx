@@ -4,7 +4,7 @@ import { conversation, users } from ".././../../utils/data";
 import { getOtherParticipant } from ".././../../utils/utils";
 import ChatListItem from "./ChatListItem";
 import MessageBubble from "./MessageBubble";
-import { Link } from "react-router-dom";
+import PageHeading from "../../shared/PageHeading";
 
 export default function Chat() {
   const [activeConversation, setActiveConversation] = useState(null);
@@ -90,12 +90,7 @@ export default function Chat() {
       {/* Left sidebar - Conversations */}
       {(!isMobileView || showConversationList) && (
         <div className="w-full md:w-1/3 border-r border-gray-200 flex flex-col">
-          <div className="px-5 py-6 border-b border-gray-200 flex items-center gap-2">
-            <Link href="#" className="text-pink-500">
-              <FiArrowLeft className="h-5 w-5" />
-            </Link>
-            <h1 className="text-xl font-semibold">Chat</h1>
-          </div>
+           <PageHeading title="Chat" />
 
           <div className="p-4">
             <div className="relative">
