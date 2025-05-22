@@ -7,91 +7,9 @@ import logo from "../../assets/header/logo.png";
 import { FaChevronRight } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import { MdDashboard, MdManageAccounts } from "react-icons/md";
+import { AdminItems } from "./SideBar";
 
-const items = [
-  {
-    key: "dashboard",
-    label: "Dashboard",
-    icon: MdDashboard,
-    link: "/",
-  },
-  {
-    key: "chat",
-    label: "Chat",
-    icon: MdManageAccounts,
-    link: "/chat",
-  },
-  {
-    key: "userManagement",
-    label: "Pet owners",
-    icon: FaUsers,
-    link: "/dashboard/user-management",
-  },
-  {
-    key: "sellermanagement",
-    label: "Business owners",
-    icon: MdManageAccounts,
-    link: "/dashboard/seller-management",
-  },
-  {
-    key: "subscription",
-    label: "Subscription",
-    icon: FaFileAlt,
-    link: "/dashboard/subscription",
-  },
-  {
-    key: "premiumSubscribers",
-    label: "Subscribers",
-    icon: MdManageAccounts,
-    link: "/premium-subscribers",
-  },
-  {
-    key: "categorymanagement",
-    label: "Category",
-    icon: MdManageAccounts,
-    link: "/category-management",
-  },
-  {
-    key: "adPromotion",
-    label: "Ads Promotion",
-    icon: MdManageAccounts,
-    link: "/ads-promotion",
-  },
-  {
-    key: "support",
-    label: "Support",
-    icon: MdManageAccounts,
-    link: "/support",
-  },
-  {
-    key: "settings",
-    label: "Settings",
-    icon: FaCog,
-    link: "/dashboard/Settings/profile",
-    children: [
-      {
-        key: "profile",
-        label: "Profile",
-        link: "/dashboard/Settings/profile",
-      },
-      {
-        key: "terms",
-        label: "Terms & Condition",
-        link: "/dashboard/Settings/Terms&Condition",
-      },
-      {
-        key: "privacy",
-        label: "Privacy Policy",
-        link: "/dashboard/Settings/PrivacyPolicy",
-      },
-      {
-        key: "faq",
-        label: "Faq",
-        link: "/faq",
-      },
-    ],
-  },
-];
+
 
 const Header = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
@@ -138,15 +56,14 @@ const Header = () => {
             className="custom-drawer"
           >
             <div className="menu-items">
-              {items.map((item) => (
+              {AdminItems.map((item) => (
                 <div key={item.key}>
                   <Link
                     to={item?.link}
-                    className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
-                      selectedKey === item?.key
+                    className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${selectedKey === item?.key
                         ? "bg-[#0B704E] text-white rounded-md"
                         : "bg-white rounded-md"
-                    }`}
+                      }`}
                     onClick={(e) => {
                       if (item.children) {
                         e.preventDefault();
@@ -157,28 +74,22 @@ const Header = () => {
                       }
                     }}
                   >
-                    <img
-                      src={item?.icon}
-                      alt={item?.label}
-                      className="w-6 h-6"
-                    />
+                    {item?.icon()}
                     <span className="ml-3 text-base font-medium">
                       {item?.label}
                     </span>
                     {item?.children && (
                       <FaChevronRight
-                        className={`ml-auto transform transition-all duration-300 ${
-                          expandedKeys.includes(item?.key) ? "rotate-90" : ""
-                        }`}
+                        className={`ml-auto transform transition-all duration-300 ${expandedKeys.includes(item?.key) ? "rotate-90" : ""
+                          }`}
                       />
                     )}
                   </Link>
 
                   {item.children && (
                     <div
-                      className={`children-menu bg-white -my-2 mx-5 text-black transition-all duration-300 ${
-                        expandedKeys.includes(item?.key) ? "expanded" : ""
-                      }`}
+                      className={`children-menu bg-white -my-2 mx-5 text-black transition-all duration-300 ${expandedKeys.includes(item?.key) ? "expanded" : ""
+                        }`}
                       style={{
                         maxHeight: expandedKeys.includes(item.key)
                           ? `${contentRef.current[item?.key]?.scrollHeight}px`
@@ -190,11 +101,10 @@ const Header = () => {
                         <Link
                           key={child?.key}
                           to={child?.link}
-                          className={`menu-item p-4 flex items-center cursor-pointer ${
-                            selectedKey === child?.key
+                          className={`menu-item p-4 flex items-center cursor-pointer ${selectedKey === child?.key
                               ? "bg-[#0B704E] text-white"
                               : "hover:bg-[#B3D3C8]"
-                          }`}
+                            }`}
                           onClick={() => {
                             setSelectedKey(child?.key);
                             setExpandedKeys([]);

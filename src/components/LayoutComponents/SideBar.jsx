@@ -1,11 +1,15 @@
-import { MdDashboard, MdManageAccounts } from "react-icons/md";
+import { MdDashboard, MdManageAccounts, MdOutlineCategory, MdOutlinePets } from "react-icons/md";
 import { FaUsers, FaChevronRight, FaFileAlt, FaCog } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import logo from "../../assets/header/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { TbHomeDollar } from "react-icons/tb";
+import { LuBadgeCheck } from "react-icons/lu";
+import { BiCheckShield, BiCommand } from "react-icons/bi";
 
-const AdminItems = [
+export const AdminItems = [
   {
     key: "dashboard",
     label: "Dashboard",
@@ -15,25 +19,25 @@ const AdminItems = [
   {
     key: "chat",
     label: "Chat",
-    icon: MdManageAccounts,
+    icon: IoChatboxEllipsesOutline,
     link: "/chat",
   },
   {
     key: "userManagement",
     label: "Pet owners",
-    icon: FaUsers,
+    icon: MdOutlinePets,
     link: "/dashboard/user-management",
   },
   {
     key: "sellermanagement",
     label: "Business owners",
-    icon: MdManageAccounts,
+    icon: TbHomeDollar,
     link: "/dashboard/seller-management",
   },
   {
     key: "subscription",
     label: "Subscription",
-    icon: FaFileAlt,
+    icon: LuBadgeCheck,
     link: "/dashboard/subscription",
   },
   {
@@ -45,19 +49,19 @@ const AdminItems = [
     {
     key: "categorymanagement",
     label: "Category",
-    icon: MdManageAccounts,
+    icon: MdOutlineCategory,
     link: "/category-management",
   },
   {
     key: "adPromotion",
     label: "Ads Promotion",
-    icon: MdManageAccounts,
+    icon: BiCommand,
     link: "/ads-promotion",
   },
   {
     key: "support",
     label: "Support",
-    icon: MdManageAccounts,
+    icon: BiCheckShield,
     link: "/support",
   },
   {
