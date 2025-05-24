@@ -1,12 +1,10 @@
 import { LuBell } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars, FaCog, FaFileAlt, FaUsers } from "react-icons/fa";
 import { useRef, useState } from "react";
 import { Drawer } from "antd";
 import logo from "../../assets/header/logo.png";
-import { FaChevronRight } from "react-icons/fa";
+import { FaBars, FaChevronRight } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
-import { MdDashboard, MdManageAccounts } from "react-icons/md";
 import { AdminItems } from "./SideBar";
 
 
