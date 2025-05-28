@@ -2,9 +2,8 @@ import { IoEyeOutline, IoSearch } from "react-icons/io5";
 import PageHeading from "../../shared/PageHeading";
 import { ConfigProvider, Modal, Table } from "antd";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-const BookingManagement = () => {
+const BookingTable = () => {
           const [isModalOpen, setIsModalOpen] = useState(false);
           const showModal = () => {
                     setIsModalOpen(true);
@@ -16,44 +15,45 @@ const BookingManagement = () => {
                     setIsModalOpen(false);
           };
           const dataSource = [
-                    { key: "1", no: "1", shopName: "Shah Aman", bookingCategory: "Pet Vets", appointmentCount: "50" },
-                    { key: "2", no: "2", shopName: "Happy Paws", bookingCategory: "Pet Grooming", appointmentCount: "30" },
-                    { key: "3", no: "3", shopName: "Care Clinic", bookingCategory: "Pet Vets", appointmentCount: "45" },
-                    { key: "4", no: "4", shopName: "Purrfect Pets", bookingCategory: "Pet Grooming", appointmentCount: "20" },
-                    { key: "5", no: "5", shopName: "Fur Friends", bookingCategory: "Pet Boarding", appointmentCount: "15" },
-                    { key: "6", no: "6", shopName: "Pet Paradise", bookingCategory: "Pet Vets", appointmentCount: "60" },
-                    { key: "7", no: "7", shopName: "Woof World", bookingCategory: "Pet Grooming", appointmentCount: "25" },
-                    { key: "8", no: "8", shopName: "Animal Care", bookingCategory: "Pet Vets", appointmentCount: "55" },
-                    { key: "9", no: "9", shopName: "Paws & Claws", bookingCategory: "Pet Grooming", appointmentCount: "40" },
-                    { key: "10", no: "10", shopName: "The Vet Spot", bookingCategory: "Pet Vets", appointmentCount: "35" },
-                    { key: "11", no: "11", shopName: "Cozy Kennels", bookingCategory: "Pet Boarding", appointmentCount: "22" },
-                    { key: "12", no: "12", shopName: "Whisker Care", bookingCategory: "Pet Grooming", appointmentCount: "28" },
-                    { key: "13", no: "13", shopName: "Healthy Tails", bookingCategory: "Pet Vets", appointmentCount: "48" },
-                    { key: "14", no: "14", shopName: "Doggy Daycare", bookingCategory: "Pet Boarding", appointmentCount: "18" },
-                    { key: "15", no: "15", shopName: "Feline Friends", bookingCategory: "Pet Grooming", appointmentCount: "32" },
-                    { key: "16", no: "16", shopName: "Pet Health", bookingCategory: "Pet Vets", appointmentCount: "53" },
-                    { key: "17", no: "17", shopName: "Tail Waggers", bookingCategory: "Pet Grooming", appointmentCount: "26" },
-                    { key: "18", no: "18", shopName: "Bark & Bath", bookingCategory: "Pet Grooming", appointmentCount: "37" },
-                    { key: "19", no: "19", shopName: "Vet Care Plus", bookingCategory: "Pet Vets", appointmentCount: "42" },
-                    { key: "20", no: "20", shopName: "Happy Kennels", bookingCategory: "Pet Boarding", appointmentCount: "20" },
-                    { key: "21", no: "21", shopName: "Puppy Palace", bookingCategory: "Pet Boarding", appointmentCount: "23" },
-                    { key: "22", no: "22", shopName: "Groom & Glow", bookingCategory: "Pet Grooming", appointmentCount: "31" },
-                    { key: "23", no: "23", shopName: "Animal Wellness", bookingCategory: "Pet Vets", appointmentCount: "49" },
-                    { key: "24", no: "24", shopName: "Fur & Feather", bookingCategory: "Pet Grooming", appointmentCount: "27" },
-                    { key: "25", no: "25", shopName: "Pawsitive Care", bookingCategory: "Pet Vets", appointmentCount: "44" },
-                    { key: "26", no: "26", shopName: "K9 Groomers", bookingCategory: "Pet Grooming", appointmentCount: "33" },
-                    { key: "27", no: "27", shopName: "Vet Zone", bookingCategory: "Pet Vets", appointmentCount: "41" },
-                    { key: "28", no: "28", shopName: "Pet Stay", bookingCategory: "Pet Boarding", appointmentCount: "19" },
-                    { key: "29", no: "29", shopName: "The Groom Room", bookingCategory: "Pet Grooming", appointmentCount: "29" },
-                    { key: "30", no: "30", shopName: "Healthy Paws", bookingCategory: "Pet Vets", appointmentCount: "47" },
+                    { key: "1", no: "1", phoneNumber: "01722222201", email: "john1@example.com", petOwnerName: "John Doe", bookingDate: "2022-01-01" },
+                    { key: "2", no: "2", phoneNumber: "01722222202", email: "jane2@example.com", petOwnerName: "Jane Smith", bookingDate: "2022-01-02" },
+                    { key: "3", no: "3", phoneNumber: "01722222203", email: "alex3@example.com", petOwnerName: "Alex Johnson", bookingDate: "2022-01-03" },
+                    { key: "4", no: "4", phoneNumber: "01722222204", email: "mary4@example.com", petOwnerName: "Mary Williams", bookingDate: "2022-01-04" },
+                    { key: "5", no: "5", phoneNumber: "01722222205", email: "peter5@example.com", petOwnerName: "Peter Brown", bookingDate: "2022-01-05" },
+                    { key: "6", no: "6", phoneNumber: "01722222206", email: "linda6@example.com", petOwnerName: "Linda Davis", bookingDate: "2022-01-06" },
+                    { key: "7", no: "7", phoneNumber: "01722222207", email: "michael7@example.com", petOwnerName: "Michael Miller", bookingDate: "2022-01-07" },
+                    { key: "8", no: "8", phoneNumber: "01722222208", email: "susan8@example.com", petOwnerName: "Susan Wilson", bookingDate: "2022-01-08" },
+                    { key: "9", no: "9", phoneNumber: "01722222209", email: "david9@example.com", petOwnerName: "David Moore", bookingDate: "2022-01-09" },
+                    { key: "10", no: "10", phoneNumber: "01722222210", email: "emma10@example.com", petOwnerName: "Emma Taylor", bookingDate: "2022-01-10" },
+                    { key: "11", no: "11", phoneNumber: "01722222211", email: "robert11@example.com", petOwnerName: "Robert Anderson", bookingDate: "2022-01-11" },
+                    { key: "12", no: "12", phoneNumber: "01722222212", email: "patricia12@example.com", petOwnerName: "Patricia Thomas", bookingDate: "2022-01-12" },
+                    { key: "13", no: "13", phoneNumber: "01722222213", email: "charles13@example.com", petOwnerName: "Charles Jackson", bookingDate: "2022-01-13" },
+                    { key: "14", no: "14", phoneNumber: "01722222214", email: "barbara14@example.com", petOwnerName: "Barbara White", bookingDate: "2022-01-14" },
+                    { key: "15", no: "15", phoneNumber: "01722222215", email: "james15@example.com", petOwnerName: "James Harris", bookingDate: "2022-01-15" },
+                    { key: "16", no: "16", phoneNumber: "01722222216", email: "elizabeth16@example.com", petOwnerName: "Elizabeth Martin", bookingDate: "2022-01-16" },
+                    { key: "17", no: "17", phoneNumber: "01722222217", email: "thomas17@example.com", petOwnerName: "Thomas Lee", bookingDate: "2022-01-17" },
+                    { key: "18", no: "18", phoneNumber: "01722222218", email: "nancy18@example.com", petOwnerName: "Nancy Perez", bookingDate: "2022-01-18" },
+                    { key: "19", no: "19", phoneNumber: "01722222219", email: "daniel19@example.com", petOwnerName: "Daniel Young", bookingDate: "2022-01-19" },
+                    { key: "20", no: "20", phoneNumber: "01722222220", email: "karen20@example.com", petOwnerName: "Karen King", bookingDate: "2022-01-20" },
+                    { key: "21", no: "21", phoneNumber: "01722222221", email: "matthew21@example.com", petOwnerName: "Matthew Scott", bookingDate: "2022-01-21" },
+                    { key: "22", no: "22", phoneNumber: "01722222222", email: "sarah22@example.com", petOwnerName: "Sarah Green", bookingDate: "2022-01-22" },
+                    { key: "23", no: "23", phoneNumber: "01722222223", email: "mark23@example.com", petOwnerName: "Mark Adams", bookingDate: "2022-01-23" },
+                    { key: "24", no: "24", phoneNumber: "01722222224", email: "laura24@example.com", petOwnerName: "Laura Baker", bookingDate: "2022-01-24" },
+                    { key: "25", no: "25", phoneNumber: "01722222225", email: "steven25@example.com", petOwnerName: "Steven Gonzalez", bookingDate: "2022-01-25" },
+                    { key: "26", no: "26", phoneNumber: "01722222226", email: "kimberly26@example.com", petOwnerName: "Kimberly Nelson", bookingDate: "2022-01-26" },
+                    { key: "27", no: "27", phoneNumber: "01722222227", email: "joseph27@example.com", petOwnerName: "Joseph Carter", bookingDate: "2022-01-27" },
+                    { key: "28", no: "28", phoneNumber: "01722222228", email: "michelle28@example.com", petOwnerName: "Michelle Mitchell", bookingDate: "2022-01-28" },
+                    { key: "29", no: "29", phoneNumber: "01722222229", email: "kevin29@example.com", petOwnerName: "Kevin Roberts", bookingDate: "2022-01-29" },
+                    { key: "30", no: "30", phoneNumber: "01722222230", email: "amanda30@example.com", petOwnerName: "Amanda Turner", bookingDate: "2022-01-30" },
           ];
+
 
 
           const columns = [
                     { title: "No", dataIndex: "no", key: "no" },
                     {
-                              title: "Shop Name",
-                              key: "shopName",
+                              title: "Pet Owner Name",
+                              key: "petOwnerName",
                               render: (_, record) => (
                                         <div className="flex items-center gap-3">
                                                   <img
@@ -61,30 +61,15 @@ const BookingManagement = () => {
                                                             className="w-10 h-10 object-cover rounded-full"
                                                             alt="User Avatar"
                                                   />
-                                                  <span>{record?.shopName}</span>
+                                                  <span>{record?.petOwnerName}</span>
                                         </div>
                               ),
                     },
-                    { title: "Booking Category", dataIndex: "bookingCategory", key: "bookingCategory" },
-                    { title: "Appointment Count", dataIndex: "appointmentCount", key: "appointmentCount" },
-                    {
-                              title: "Action",
-                              key: "action",
-                              render: () => {
-                                        return (
-                                                  <div className="flex gap-2">
-                                                          <Link to="/bookingTable">
-                                                            <button
-                                                                      // onClick={showModal}
-                                                                      className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
-                                                            >
-                                                                      <IoEyeOutline className="w-6 h-6 text-[#14803c]" />
-                                                            </button>
-                                                          </Link>
-                                                  </div>
-                                        );
-                              },
-                    }
+
+                    { title: "Email", dataIndex: "email", key: "email" },
+                    { title: "Phone Number", dataIndex: "phoneNumber", key: "phoneNumber" },
+                    { title: "Booking Date", dataIndex: "bookingDate", key: "bookingDate" }
+
           ];
 
           return (
@@ -170,4 +155,4 @@ const BookingManagement = () => {
           );
 };
 
-export default BookingManagement;
+export default BookingTable;
