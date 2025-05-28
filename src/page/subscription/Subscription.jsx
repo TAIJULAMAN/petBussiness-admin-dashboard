@@ -9,17 +9,17 @@ export default function Subscription() {
   const plans = {
     monthly: {
       name: "Basic Plan",
-      price: "UM 0.00",
+      price: "$0.00",
       period: "/month",
     },
     yearly: {
       name: "Premium Plan",
-      price: "UM 20.99",
+      price: "$20.99",
       period: "/year",
     },
     pro: {
       name: "Pro Plan",
-      price: "UM 49.99",
+      price: "$49.99",
       period: "/year",
     },
   };
@@ -34,8 +34,14 @@ export default function Subscription() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex items-center justify-start mb-5">
+      <div className="flex flex-col md:flex-row gap-5 justify-between items-center mb-5">
         <PageHeading title="Subscription Management" />
+        <button
+          // onClick={showModal4}
+          className="bg-[#FF62BD] text-white px-4 py-3 rounded-lg"
+        >
+          + Add Subscription
+        </button>
       </div>
       <div className="flex justify-center items-center p-5">
         <div className="bg-white shadow-lg relative rounded-2xl px-5 py-20 w-full max-w-xl text-center">
@@ -46,25 +52,22 @@ export default function Subscription() {
           {/* Plan Toggle */}
           <div className="flex bg-orange-50 p-1 rounded-full mb-6">
             <button
-              className={`flex-1 py-2 px-4 rounded-full text-center transition-colors ${
-                plan === "monthly" ? "bg-white shadow-sm" : ""
-              }`}
+              className={`flex-1 py-2 px-4 rounded-full text-center transition-colors ${plan === "monthly" ? "bg-white shadow-sm" : ""
+                }`}
               onClick={() => setPlan("monthly")}
             >
               Basic
             </button>
             <button
-              className={`flex-1 py-2 px-4 rounded-full text-center transition-colors ${
-                plan === "yearly" ? "bg-white shadow-sm" : ""
-              }`}
+              className={`flex-1 py-2 px-4 rounded-full text-center transition-colors ${plan === "yearly" ? "bg-white shadow-sm" : ""
+                }`}
               onClick={() => setPlan("yearly")}
             >
               Premium
             </button>
             <button
-              className={`flex-1 py-2 px-4 rounded-full text-center transition-colors ${
-                plan === "pro" ? "bg-white shadow-sm" : ""
-              }`}
+              className={`flex-1 py-2 px-4 rounded-full text-center transition-colors ${plan === "pro" ? "bg-white shadow-sm" : ""
+                }`}
               onClick={() => setPlan("pro")}
             >
               Pro

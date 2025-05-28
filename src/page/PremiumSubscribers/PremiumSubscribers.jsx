@@ -1,4 +1,4 @@
-import { IoSearch } from "react-icons/io5";
+import { IoEyeOutline, IoSearch } from "react-icons/io5";
 import PageHeading from "../../shared/PageHeading";
 import { ConfigProvider, Modal, Table } from "antd";
 import { MdBlockFlipped } from "react-icons/md";
@@ -315,6 +315,18 @@ const PremiumSubscribers = () => {
       title: "Subscription Plan",
       dataIndex: "subscriptionPlan",
       key: "subscriptionPlan",
+      render: (subscriptionPlan) => {
+        const bgColors = {
+          Basic: "bg-blue-100 text-blue-800",
+          Premium: "bg-purple-100 text-purple-800",
+          Pro: "bg-green-100 text-green-800"
+        };
+        return (
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${bgColors[subscriptionPlan]}`}>
+            {subscriptionPlan}
+          </span>
+        );
+      }
     },
     {
       title: "Action",
@@ -322,6 +334,12 @@ const PremiumSubscribers = () => {
       render: () => {
         return (
           <div className="flex gap-2">
+            <button
+              // onClick={showModal}
+              className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
+            >
+              <IoEyeOutline className="w-6 h-6 text-[#14803c]" />
+            </button>
             <button
               onClick={showModal}
               className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"

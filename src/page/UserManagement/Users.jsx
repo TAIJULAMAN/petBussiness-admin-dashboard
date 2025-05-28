@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IoSearch } from "react-icons/io5";
+import { IoEyeOutline, IoSearch } from "react-icons/io5";
 import { MdBlockFlipped } from "react-icons/md";
 import PageHeading from "../../shared/PageHeading";
 import { ConfigProvider, Modal, Table } from "antd";
@@ -250,12 +250,20 @@ const Users = () => {
       title: "Action",
       key: "action",
       render: () => (
-        <button
-          onClick={showModal}
-          className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
-        >
-          <MdBlockFlipped className="w-6 h-6 text-[#14803c]" />
-        </button>
+        <div className="flex gap-2">
+          <button
+            // onClick={showModal}
+            className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
+          >
+            <IoEyeOutline className="w-6 h-6 text-[#14803c]" />
+          </button>
+          <button
+            onClick={showModal}
+            className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
+          >
+            <MdBlockFlipped className="w-6 h-6 text-[#14803c]" />
+          </button>
+        </div>
       ),
     },
   ];

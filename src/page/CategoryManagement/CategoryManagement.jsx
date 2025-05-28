@@ -143,14 +143,12 @@ const CategoryManagement = () => {
     <>
       <div className="my-5 md:my-10 flex flex-col md:flex-row gap-5 justify-between items-center">
         <PageHeading title="Category Management" />
-        {/* <div className="relative w-full sm:w-[300px] mt-5 md:mt-0 lg:mt-0"> */}
         <button
           onClick={showModal4}
           className="bg-[#FF62BD] text-white px-4 py-3 rounded-lg"
         >
           + Add Category
         </button>
-        {/* </div> */}
       </div>
       <ConfigProvider
         theme={{
