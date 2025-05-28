@@ -53,6 +53,12 @@ export const AdminItems = [
     link: "/category-management",
   },
   {
+    key: "bookingManagement",
+    label: "Booking Management",
+    icon: MdOutlineCategory,
+    link: "/booking-management",
+  },
+  {
     key: "adPromotion",
     label: "Ads Promotion",
     icon: BiCommand,

@@ -19,6 +19,7 @@ import ResetPassword from "../auth/ResetPassword";
 import ForgetPassword from "../auth/ForgetPassword";
 import Users from "../page/UserManagement/Users";
 import SignIn from "../auth/SignIn";
+import BookingManagement from "../page/BookingManagement/BookingManagement";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/subscription",
         element: <Subscription />,
+      },
+      {
+        path: "/booking-management",
+        element: <BookingManagement />,
       },
       {
         path: "/dashboard/update-subscription",
