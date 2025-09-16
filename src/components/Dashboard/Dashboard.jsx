@@ -39,7 +39,7 @@ function DashboardPage() {
       bgColor: "bg-blue-50",
       iconColor: "text-blue-600",
       change: "+12%",
-      changeType: "increase"
+      changeType: "increase",
     },
     {
       title: "Total Income",
@@ -49,7 +49,7 @@ function DashboardPage() {
       bgColor: "bg-green-50",
       iconColor: "text-green-600",
       change: "+8.5%",
-      changeType: "increase"
+      changeType: "increase",
     },
     {
       title: "Total Sellers",
@@ -59,7 +59,7 @@ function DashboardPage() {
       bgColor: "bg-purple-50",
       iconColor: "text-purple-600",
       change: "+15%",
-      changeType: "increase"
+      changeType: "increase",
     },
     {
       title: "Total Subscribers",
@@ -69,7 +69,7 @@ function DashboardPage() {
       bgColor: "bg-orange-50",
       iconColor: "text-orange-600",
       change: "+23%",
-      changeType: "increase"
+      changeType: "increase",
     },
   ];
 
@@ -83,15 +83,19 @@ function DashboardPage() {
             className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
           >
             {/* Background Gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-            
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+            ></div>
+
             {/* Card Content */}
             <div className="relative p-6">
               {/* Icon Section */}
-              <div className={`inline-flex items-center justify-center w-14 h-14 ${card.bgColor} rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                <img 
-                  src={card.icon} 
-                  alt={`${card.title} Icon`} 
+              <div
+                className={`inline-flex items-center justify-center w-14 h-14 ${card.bgColor} rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300`}
+              >
+                <img
+                  src={card.icon}
+                  alt={`${card.title} Icon`}
                   className={`w-8 h-8 ${card.iconColor}`}
                 />
               </div>
@@ -107,12 +111,13 @@ function DashboardPage() {
                   <p className="text-3xl font-bold text-gray-900 mb-1">
                     {card.value}
                   </p>
-                 
                 </div>
               </div>
 
               {/* Decorative Element */}
-              <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${card.color} opacity-10 rounded-bl-full`}></div>
+              <div
+                className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${card.color} opacity-10 rounded-bl-full`}
+              ></div>
             </div>
           </div>
         ))}
