@@ -9,21 +9,25 @@ const profileApi = baseApi.injectEndpoints({
       }),
       providesTags: ["auth"],
     }),
+
     getAdminProfile: builder.query({
       query: () => ({
-        url: "auth/profile",
+        url: "admin/get-profile",
         method: "GET",
       }),
       providesTags: ["profile"],
+      keepUnusedDataFor: 0,
+      refetchOnMountOrArgChange: true,
     }),
     updateProfile: builder.mutation({
       query: (formData) => ({
-        url: "auth/update_my_profile",
-        method: "PATCH",
+        url: "admin/update-profile",
+        method: "PUT",
         body: formData,
       }),
-      invalidatesTags: ["auth"],
+      invalidatesTags: ["profile"],
     }),
+
     changeAdminPassword: builder.mutation({
       query: (data) => ({
         url: "user/change_password",
