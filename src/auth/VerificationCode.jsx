@@ -1,19 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BrandLogo from "../shared/BrandLogo";
+<<<<<<< HEAD
 import { useVerifyCodeMutation } from "../redux/api/authApi";
 
 function VerificationCode() {
   const [code, setCode] = useState(new Array(6).fill(""));
   const navigate = useNavigate();
   // const [VerifyCode] = useVerifyCodeMutation();
+=======
+
+function VerificationCode() {
+  const [code, setCode] = useState(new Array(5).fill(""));
+  const navigate = useNavigate();
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
   const handleChange = (value, index) => {
     if (!isNaN(value)) {
       const newCode = [...code];
       newCode[index] = value;
       setCode(newCode);
+<<<<<<< HEAD
       if (value && index < 6) {
+=======
+      if (value && index < 5) {
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
         document.getElementById(`code-${index + 1}`).focus();
       }
     }

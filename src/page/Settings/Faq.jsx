@@ -1,18 +1,26 @@
 import { Modal } from "antd";
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
+=======
+import { useState } from "react";
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import PageHeading from "../../shared/PageHeading";
+<<<<<<< HEAD
 import { useGetAllFaqQuery, useCreateFaqMutation, useUpdateFaqMutation, useDeleteFaqMutation } from "../../redux/api/faqApi";
 import Swal from "sweetalert2";
+=======
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
 const Faq = () => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
+<<<<<<< HEAD
   const [selectedFaq, setSelectedFaq] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
@@ -24,10 +32,43 @@ const Faq = () => {
 
   // Get FAQs from API data
   const AccordionData = faqData?.success ? faqData.faqs : [];
+=======
+
+  // Accordion data
+  const AccordionData = [
+    {
+      title: "What is HTML, and why is it important in web development?",
+      description:
+        "HTML (HyperText Markup Language) is the standard markup language used to create web pages. It provides the structure of a website and is essential for displaying content on the web.",
+    },
+    {
+      title: "What is CSS, and how does it enhance web design?",
+      description:
+        "CSS (Cascading Style Sheets) is a stylesheet language that allows developers to style and layout web pages. It controls the design, including colors, fonts, and layouts, making the site visually appealing.",
+    },
+    {
+      title: "What is JavaScript, and how is it used in web development?",
+      description:
+        "JavaScript is a scripting language that enables interactivity on web pages. It is widely used for tasks such as form validation, animations, and dynamic content updates, enhancing user experience.",
+    },
+    {
+      title: "Explain the concept of responsive web design.",
+      description:
+        "Responsive web design ensures that a website looks and functions well on various screen sizes, from desktops to mobile devices, by using flexible layouts, images, and CSS media queries.",
+    },
+    {
+      title:
+        "What are the differences between frontend and backend development?",
+      description:
+        "Frontend development focuses on the client side, including the layout and design that users interact with. Backend development involves server-side functionality, including databases, application logic, and APIs.",
+    },
+  ];
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
   const handleClick = (index) => {
     setIsAccordionOpen((prevIndex) => (prevIndex === index ? null : index));
   };
+<<<<<<< HEAD
   const showModal = (id) => {
     setDeleteId(id);
     setIsModalOpen(true);
@@ -58,6 +99,16 @@ const Faq = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
     setDeleteId(null);
+=======
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
   };
   const handleCancel2 = () => {
     setAddModalOpen(false);
@@ -68,6 +119,7 @@ const Faq = () => {
   const showModal2 = () => {
     setAddModalOpen(true);
   };
+<<<<<<< HEAD
   const showModal3 = (faq) => {
     setSelectedFaq(faq);
     setUpdateModalOpen(true);
@@ -155,6 +207,15 @@ const Faq = () => {
     }
   }, [selectedFaq, updateModalOpen]);
 
+=======
+  const showModal3 = () => {
+    setUpdateModalOpen(true);
+  };
+
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
   return (
     <div className="relative p-5 z-0">
       <div className="flex justify-between items-center">
@@ -169,6 +230,7 @@ const Faq = () => {
         </div>
       </div>
 
+<<<<<<< HEAD
       {isLoading ? (
         <div className="bg-white rounded shadow p-5 h-full flex items-center justify-center mt-5">
           <div className="text-center">
@@ -244,6 +306,55 @@ const Faq = () => {
           )}
         </div>
       )}
+=======
+      <div className="flex gap-2 flex-col w-full mt-5 bg-white p-5">
+        {AccordionData?.map((accordion, index) => (
+          <section
+            key={index}
+            className="border-b border-[#e5eaf2] rounded py-3"
+          >
+            <div
+              className="flex gap-2 cursor-pointer items-center justify-between w-full"
+              onClick={() => handleClick(index)}
+            >
+              <h2 className="text-base font-normal md:font-bold md:text-2xl flex gap-2 items-center">
+                <FaRegQuestionCircle className="w-5 h-5 hidden md:flex" />
+                {accordion.title}
+              </h2>
+              <div className="flex gap-2 md:gap-4 items-center">
+                <FaChevronDown
+                  className={`w-5 h-5 text-[#0D0D0D] transition-all duration-300 ${
+                    isAccordionOpen === index &&
+                    "rotate-[180deg] !text-[#14803c]"
+                  }`}
+                />
+                <div className="border-2 px-1.5 py-1 rounded border-[#14803c] bg-[#f0fcf4]">
+                  <button className="" onClick={showModal3}>
+                    <CiEdit className="text-2xl cursor-pointer text-[#14803c] font-bold transition-all" />
+                  </button>
+                </div>
+                <div className="border-2 px-1.5 py-1 rounded border-[#14803c] bg-[#f0fcf4]">
+                  <button className="" onClick={showModal}>
+                    <RiDeleteBin6Line className="text-2xl cursor-pointer text-red-500 transition-all" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              className={`grid transition-all duration-300 overflow-hidden ease-in-out ${
+                isAccordionOpen === index
+                  ? "grid-rows-[1fr] opacity-100 mt-4"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <p className="text-[#424242] text-[0.9rem] overflow-hidden">
+                {accordion.description}
+              </p>
+            </div>
+          </section>
+        ))}
+      </div>
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
       <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null}>
         <div className="p-5">
@@ -327,6 +438,7 @@ const Faq = () => {
             </button>
 
             <button
+<<<<<<< HEAD
               onClick={handleAddFaq}
               disabled={isCreating}
               className={`py-2 px-4 rounded-lg text-white ${
@@ -334,6 +446,12 @@ const Faq = () => {
               }`}
             >
               {isCreating ? "Saving..." : "Save"}
+=======
+              onClick={handleCancel2}
+              className="py-2 px-4 rounded-lg bg-green-600 text-white"
+            >
+              Save
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
             </button>
           </div>
         </div>
@@ -396,6 +514,7 @@ const Faq = () => {
             </button>
 
             <button
+<<<<<<< HEAD
               onClick={handleUpdateFaq}
               disabled={isUpdating}
               className={`py-2 px-4 rounded-lg text-white ${
@@ -403,6 +522,12 @@ const Faq = () => {
               }`}
             >
               {isUpdating ? "Updating..." : "Save"}
+=======
+              onClick={handleCancel3}
+              className="py-2 px-4 rounded-lg bg-green-600 text-white"
+            >
+              Save
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
             </button>
           </div>
         </div>

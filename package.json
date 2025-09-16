@@ -23,7 +23,10 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+<<<<<<< HEAD
     "dayjs": "^1.11.18",
+=======
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
     "jodit-react": "^4.1.2",
     "lucide-react": "^0.460.0",
     "path": "^0.12.7",
@@ -53,6 +56,10 @@
     "globals": "^15.11.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
+<<<<<<< HEAD
     "vite": "^7.1.4"
+=======
+    "vite": "^5.4.10"
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
   }
 }

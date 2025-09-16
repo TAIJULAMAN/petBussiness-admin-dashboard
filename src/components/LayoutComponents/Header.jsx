@@ -6,7 +6,10 @@ import logo from "../../assets/header/logo.png";
 import { FaBars, FaChevronRight } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import { AdminItems } from "./SideBar";
+<<<<<<< HEAD
 import { useSelector } from "react-redux";
+=======
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
 
 
@@ -17,9 +20,12 @@ const Header = () => {
   const contentRef = useRef({});
   const [open, setOpen] = useState(false);
   const [placement] = useState("left");
+<<<<<<< HEAD
   
   // Get user data from Redux store
   const { user } = useSelector((state) => state.auth);
+=======
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
@@ -154,9 +160,15 @@ const Header = () => {
                   alt="User Avatar"
                 />
                 <div className="hidden md:flex flex-col items-start">
+<<<<<<< HEAD
                   <h3 className="text-gray-800 text-sm">{user?.name || "User"}</h3>
                   <p className="text-xs px-2 py-1 bg-[#ebfcf4] text-[#FF62BD] rounded">
                     {user?.role?.replace('_', ' ') || "Admin"}
+=======
+                  <h3 className="text-gray-800 text-sm">Shah Aman</h3>
+                  <p className="text-xs px-2 py-1 bg-[#ebfcf4] text-[#FF62BD] rounded">
+                    Admin
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
                   </p>
                 </div>
               </div>

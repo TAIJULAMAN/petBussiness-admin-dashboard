@@ -5,7 +5,7 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-const RecentSellerRequests = () => {
+const RecentSellerRequests = ({ showModal }) => {
   const dataSource = [
     {
       key: "1",
@@ -68,30 +68,30 @@ const RecentSellerRequests = () => {
     { title: "Shop Name", dataIndex: "shopName", key: "shopName" },
     { title: "Date", dataIndex: "Date", key: "Date" },
     { title: "Location", dataIndex: "shopAddress", key: "shopAddress" },
-    // {
-    //   title: "Action",
-    //   key: "action",
-    //   render: () => {
-    //     return (
-    //       <div className="flex gap-2">
-    //         <button className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200">
-    //           <BsPatchCheckFill className="w-6 h-6 text-[#14803c]" />
-    //         </button>
-    //         <Link to="/chat">
-    //           <button className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200">
-    //             <IoChatbubbleEllipsesOutline className="w-6 h-6 text-[#14803c]" />
-    //           </button>
-    //         </Link>
-    //         <button className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200">
-    //           <MdBlockFlipped
-    //             onClick={showModal}
-    //             className="w-6 h-6 text-[#14803c]"
-    //           />
-    //         </button>
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      title: "Action",
+      key: "action",
+      render: () => {
+        return (
+          <div className="flex gap-2">
+            <button className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200">
+              <BsPatchCheckFill className="w-6 h-6 text-[#14803c]" />
+            </button>
+            <Link to="/chat">
+              <button className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200">
+                <IoChatbubbleEllipsesOutline className="w-6 h-6 text-[#14803c]" />
+              </button>
+            </Link>
+            <button className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200">
+              <MdBlockFlipped
+                onClick={showModal}
+                className="w-6 h-6 text-[#14803c]"
+              />
+            </button>
+          </div>
+        );
+      },
+    },
   ];
 
   return (

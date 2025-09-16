@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -69,22 +70,41 @@ function TermsAndCondition() {
       </div>
     );
   }
+=======
+import { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import PageHeading from "../../shared/PageHeading";
+
+function TermsAndCondition() {
+  const [content, setContent] = useState(
+    "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum."
+  );
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
   return (
     <div className="p-5">
       <PageHeading title="Terms And Condition" />
 
+<<<<<<< HEAD
       <div className="bg-white rounded shadow p-5 h-full">
+=======
+      <div className=" bg-white rounded shadow p-5 h-full">
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
         <ReactQuill
           style={{ padding: "10px" }}
           theme="snow"
           value={content}
           onChange={setContent}
+<<<<<<< HEAD
           placeholder="Enter terms and conditions..."
+=======
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
         />
       </div>
       <div className="text-center py-5">
         <button
+<<<<<<< HEAD
           onClick={handleSave}
           disabled={isUpdating}
           className={`font-semibold w-full py-2 rounded transition duration-200 ${
@@ -94,6 +114,12 @@ function TermsAndCondition() {
           }`}
         >
           {isUpdating ? "Saving..." : "Save changes"}
+=======
+          onClick={() => console.log(content)}
+          className="bg-[#91DF92] text-[#000] font-semibold w-full py-2 rounded transition duration-200"
+        >
+          Save changes
+>>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
         </button>
       </div>
     </div>
