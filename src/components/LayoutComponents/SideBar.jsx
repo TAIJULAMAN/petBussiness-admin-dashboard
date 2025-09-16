@@ -1,9 +1,5 @@
 import { MdDashboard, MdManageAccounts, MdOutlineCategory, MdOutlinePets } from "react-icons/md";
-<<<<<<< HEAD
 import {  FaChevronRight, FaCog } from "react-icons/fa";
-=======
-import { FaUsers, FaChevronRight, FaFileAlt, FaCog } from "react-icons/fa";
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 import { IoIosLogIn } from "react-icons/io";
 import logo from "../../assets/header/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -12,12 +8,9 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { TbHomeDollar } from "react-icons/tb";
 import { LuBadgeCheck } from "react-icons/lu";
 import { BiCheckShield, BiCommand } from "react-icons/bi";
-<<<<<<< HEAD
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/Slice/authSlice";
 import Swal from "sweetalert2";
-=======
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
 export const AdminItems = [
   {
@@ -115,10 +108,6 @@ const SideBar = () => {
   const [expandedKeys, setExpandedKeys] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-<<<<<<< HEAD
-  const dispatch = useDispatch();
-=======
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
   const contentRef = useRef({});
 
   useEffect(() => {
@@ -158,7 +147,6 @@ const SideBar = () => {
   };
 
   const handleLogout = () => {
-<<<<<<< HEAD
     Swal.fire({
       title: "Are you sure?",
       text: "You will be logged out of your account!",
@@ -195,9 +183,6 @@ const SideBar = () => {
         });
       }
     });
-=======
-    navigate("/login");
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
   };
 
   return (

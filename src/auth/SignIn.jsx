@@ -2,15 +2,12 @@ import { useState } from "react";
 import "antd/dist/reset.css";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import BrandLogo from "../shared/BrandLogo";
-<<<<<<< HEAD
 import { Link, useNavigate } from "react-router-dom";
 import { useLogInMutation } from "../redux/api/authApi";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/Slice/authSlice";
 import Swal from "sweetalert2";
-=======
 import { Link } from "react-router-dom";
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -19,13 +16,10 @@ function SignIn() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-<<<<<<< HEAD
   const [error, setError] = useState("");
   const [logIn, { isLoading }] = useLogInMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-=======
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +32,6 @@ function SignIn() {
     setIsChecked(event.target.checked);
   };
 
-<<<<<<< HEAD
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
@@ -84,8 +77,6 @@ function SignIn() {
     }
   };
 
-=======
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
   return (
     <div className="flex justify-center items-center min-h-screen bg-white p-5">
       <div className="bg-white shadow-lg relative rounded-2xl px-5 py-20 w-full max-w-xl text-center">
@@ -93,11 +84,7 @@ function SignIn() {
           status="Login to your account"
           information="please enter your email and password to continue."
         />
-<<<<<<< HEAD
-        <form className="space-y-5" onSubmit={handleSubmit}>
-=======
         <form className="space-y-5">
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
           <div className="w-full">
             <label className="text-xl text-gray-800 mb-2 flex justify-start text-start">
               Email address
@@ -204,28 +191,6 @@ function SignIn() {
             </Link>
           </div>
 
-<<<<<<< HEAD
-          {/* Error Display */}
-          {error && (
-            <div className="text-red-500 text-sm text-center bg-red-50 border border-red-200 rounded-lg p-3 mt-4">
-              {error}
-            </div>
-          )}
-
-          <div className="flex justify-center items-center text-[#000000]">
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`w-full font-semibold py-3 px-6 rounded-lg shadow-lg mt-5 transition-colors ${
-                isLoading
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-[#B5ED90] hover:bg-[#A5DD80] cursor-pointer"
-              }`}
-            >
-              {isLoading ? "Signing In..." : "Sign In"}
-            </button>
-          </div>
-=======
           <Link to="/">
             <div className="flex justify-center items-center text-[#000000]">
               <button
@@ -236,7 +201,6 @@ function SignIn() {
               </button>
             </div>
           </Link>
->>>>>>> e1180e79de3219403ba9481a9cff3546dd43ca62
         </form>
       </div>
     </div>
