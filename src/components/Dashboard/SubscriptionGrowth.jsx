@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import {
   Area,
@@ -17,10 +17,16 @@ const SellerGrowth = () => {
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data: dashboardData, isLoading } = useGetAllDashboardQuery({
-    year: selectedYear,
-  });
-  console.log("dashboardData from seller growth", dashboardData);
+  // Use skip to prevent unnecessary API calls and add caching
+  const { data: dashboardData, isLoading, isFetching } = useGetAllDashboardQuery(
+    { year: selectedYear },
+    {
+      skip: false,
+      refetchOnMountOrArgChange: 300, // Cache for 5 minutes
+      refetchOnFocus: false,
+      refetchOnReconnect: false,
+    }
+  );
 
   const startYear = 2023;
   const endYear = currentYear + 1;
@@ -34,6 +40,7 @@ const SellerGrowth = () => {
     setIsOpen(false);
   };
 
+  // Memoize resize handler to prevent unnecessary re-renders
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) {
@@ -48,20 +55,37 @@ const SellerGrowth = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const sellerGrowthData = dashboardData?.data?.sellerGrowth?.monthlyData || [];
-  const currentYearData =
-    dashboardData?.data?.sellerGrowth?.year === selectedYear
-      ? sellerGrowthData
-      : [];
-  const data = currentYearData.map((item) => ({
-    month: item.month,
-    vendors: item.cumulative || 0,
-    count: item.count || 0,
-  }));
-  if (isLoading) {
+  // Memoize data processing to prevent unnecessary recalculations
+  const chartData = useMemo(() => {
+    const sellerGrowthData = dashboardData?.data?.sellerGrowth?.monthlyData || [];
+    const currentYearData =
+      dashboardData?.data?.sellerGrowth?.year === selectedYear
+        ? sellerGrowthData
+        : [];
+    
+    return currentYearData.map((item) => ({
+      month: item.month,
+      vendors: item.cumulative || 0,
+      count: item.count || 0,
+    }));
+  }, [dashboardData, selectedYear]);
+
+  // Enhanced loading state with skeleton
+  if (isLoading || isFetching) {
     return (
-      <div className="w-full h-[300px] flex items-center justify-center">
-        <div className="text-gray-500">Loading seller growth data...</div>
+      <div className="animate-pulse">
+        <div className="flex flex-col md:flex-row md:justify-between lg:justify-between items-center gap-5 my-5">
+          <div className="h-6 bg-gray-200 rounded w-32"></div>
+          <div className="h-10 bg-gray-200 rounded w-32"></div>
+        </div>
+        <div className="w-full h-[300px] bg-gray-100 rounded-lg flex items-center justify-center">
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 bg-[#B5ED90] rounded-full animate-bounce"></div>
+            <div className="w-4 h-4 bg-[#FF62BD] rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+            <div className="w-4 h-4 bg-[#B5ED90] rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+            <span className="ml-2 text-gray-600">Loading seller growth data...</span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -118,7 +142,7 @@ const SellerGrowth = () => {
       <div className="w-full h-[300px]">
         <ResponsiveContainer width="100%" height={chartHeight}>
           <AreaChart
-            data={data}
+            data={chartData}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>

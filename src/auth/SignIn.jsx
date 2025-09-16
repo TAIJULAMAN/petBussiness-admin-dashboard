@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import "antd/dist/reset.css";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
@@ -8,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/Slice/authSlice";
 import Swal from "sweetalert2";
 
-function SignIn() {
+export default function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -215,5 +216,3 @@ function SignIn() {
     </div>
   );
 }
-
-export default SignIn;
