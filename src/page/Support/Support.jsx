@@ -56,7 +56,15 @@ const Support = () => {
 
   const columns = [
     { title: "No", dataIndex: "no", key: "no" },
-    { title: "Subject", dataIndex: "message", key: "message" },
+    {
+      title: "Subject",
+      dataIndex: "message",
+      key: "message",
+      render: (text) => {
+        if (!text) return "No message";
+        return text.length > 50 ? `${text.substring(0, 20)}...` : text;
+      },
+    },
     { title: "Date", dataIndex: "date", key: "date" },
 
     {
@@ -158,55 +166,71 @@ const Support = () => {
             </h1>
 
             {selectedSupport && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                  <img
-                    src={`https://avatar.iran.liara.run/public/${selectedSupport.no}`}
-                    className="w-12 h-12 object-cover rounded-full"
-                    alt="User Avatar"
-                  />
-                  <div>
-                    <h3 className="font-semibold text-lg">
-                      {selectedSupport.userName}
-                    </h3>
-                    <p className="text-gray-600">{selectedSupport.email}</p>
-                  </div>
+              <div className="space-y-5">
+                <div className="flex items-center gap-3 mb-2">
+                  <p className="text-gray-600">
+                   <span className="font-semibold"> User Mail :</span> {selectedSupport.email || "No email"}
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="font-semibold text-gray-700">
-                      Subject:
+                      Ticket ID:
                     </label>
-                    <p className="text-gray-900">{selectedSupport.subject}</p>
+                    <p className="text-gray-900 break-all">
+                      {selectedSupport._id || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="font-semibold text-gray-700">Date:</label>
-                    <p className="text-gray-900">{selectedSupport.date}</p>
+                    <label className="font-semibold text-gray-700">No:</label>
+                    <p className="text-gray-900">
+                      {selectedSupport.no || "N/A"}
+                    </p>
                   </div>
-                </div>
-
-                <div className="mb-4">
-                  <label className="font-semibold text-gray-700">Status:</label>
-                  <span
-                    className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${
-                      selectedSupport.status === "resolved"
-                        ? "bg-green-100 text-green-800"
-                        : selectedSupport.status === "pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {selectedSupport.status?.charAt(0)?.toUpperCase() +
-                      selectedSupport.status?.slice(1)}
-                  </span>
+              
+                  <div>
+                    <label className="font-semibold text-gray-700">
+                      Phone:
+                    </label>
+                    <p className="text-gray-900">
+                      {selectedSupport.phone || "N/A"}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="font-semibold text-gray-700">
+                      Date/Time:
+                    </label>
+                    <p className="text-gray-900">
+                      {selectedSupport.createdAt
+                        ? new Date(selectedSupport.createdAt).toLocaleString()
+                        : selectedSupport.date || "N/A"}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="font-semibold text-gray-700">
+                      Status:
+                    </label>
+                    <span
+                      className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${
+                        selectedSupport.status === "resolved"
+                          ? "bg-green-100 text-green-800"
+                          : selectedSupport.status === "pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {selectedSupport.status?.charAt(0)?.toUpperCase() +
+                        selectedSupport.status?.slice(1) || "Unknown"}
+                    </span>
+                  </div>
                 </div>
 
                 <div>
                   <label className="font-semibold text-gray-700">
                     Message:
                   </label>
-                  <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                  <div className="mt-2 p-3 bg-gray-50 rounded-lg max-h-60 overflow-auto">
                     <p className="text-gray-900 whitespace-pre-wrap">
                       {selectedSupport.message || "No message provided"}
                     </p>
