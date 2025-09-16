@@ -10,10 +10,10 @@ import ReduxProvider from "./redux/ReduxProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-     <ReduxProvider>
-       <PersistGate loading={null} persistor={persistor}>
+    <ReduxProvider>
+      <PersistGate loading={null} persistor={persistor}>
         <RouterProvider router={router} />
       </PersistGate>
-     </ReduxProvider>
+    </ReduxProvider>
   </StrictMode>
 );
