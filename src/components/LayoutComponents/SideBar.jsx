@@ -1,5 +1,11 @@
-import { MdDashboard, MdManageAccounts, MdOutlineCategory, MdOutlinePets } from "react-icons/md";
-import {  FaChevronRight, FaCog } from "react-icons/fa";
+import {
+  MdDashboard,
+  MdManageAccounts,
+  MdOutlineCategory,
+  MdOutlinePets,
+  MdClose,
+} from "react-icons/md";
+import { FaChevronDown, FaCog, FaBars } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import logo from "../../assets/header/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -10,7 +16,6 @@ import { LuBadgeCheck } from "react-icons/lu";
 import { BiCheckShield, BiCommand } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/Slice/authSlice";
-import Swal from "sweetalert2";
 
 export const AdminItems = [
   {
@@ -18,12 +23,6 @@ export const AdminItems = [
     label: "Dashboard",
     icon: MdDashboard,
     link: "/",
-  },
-  {
-    key: "chat",
-    label: "Chat",
-    icon: IoChatboxEllipsesOutline,
-    link: "/chat",
   },
   {
     key: "userManagement",
@@ -49,7 +48,7 @@ export const AdminItems = [
     icon: MdManageAccounts,
     link: "/premium-subscribers",
   },
-    {
+  {
     key: "categorymanagement",
     label: "Category",
     icon: MdOutlineCategory,
@@ -103,12 +102,51 @@ export const AdminItems = [
   },
 ];
 
-const SideBar = () => {
+const SideBar = ({ isOpen, onClose }) => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const contentRef = useRef({});
+  const sidebarRef = useRef(null);
+
+  // Check if mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isMobile &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        onClose?.();
+      }
+    };
+
+    if (isOpen && isMobile) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen, isMobile, onClose]);
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -147,149 +185,174 @@ const SideBar = () => {
   };
 
   const handleLogout = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will be logged out of your account!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#FF62BD",
-      cancelButtonColor: "#6B7280",
-      confirmButtonText: "Yes, logout!",
-      cancelButtonText: "Cancel"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Clear Redux state
-        dispatch(logout());
-        
-        // Clear all localStorage data
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("user");
-        localStorage.removeItem("token"); // Remove old token if exists
-        
-        // Clear any other app-specific localStorage items
-        localStorage.clear();
-        
-        // Show success message
-        Swal.fire({
-          title: "Logged Out!",
-          text: "You have been successfully logged out.",
-          icon: "success",
-          timer: 1500,
-          showConfirmButton: false
-        }).then(() => {
-          // Navigate to login page
-          navigate("/login");
-        });
+    navigate("/login");
+  };
+
+  const handleItemClick = (item, e) => {
+    if (item.children) {
+      e.preventDefault();
+      onParentClick(item.key);
+    } else {
+      setSelectedKey(item.key);
+      if (isMobile) {
+        onClose?.();
       }
-    });
+    }
+  };
+
+  const handleChildClick = (child) => {
+    setSelectedKey(child.key);
+    setExpandedKeys([]);
+    if (isMobile) {
+      onClose?.();
+    }
   };
 
   return (
-    <div className="min-h-[100vh] bg-[#B5ED90] overflow-y-auto">
-      <div className="custom-sidebar-logo flex justify-center">
-        <img src={logo} alt="Logo" className="w-[95px]" />
-      </div>
-      <div className="menu-items">
-        <div>
-          {AdminItems.map((item) => {
-            const isSettingsActive =
-              item.key === "settings" &&
-              item.children.some((child) => child.link === location.pathname);
+    <>
+      {/* Mobile Overlay */}
+      {isMobile && isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" />
+      )}
 
-            const isCreatorActive =
-              item.key === "creatorManagement" &&
-              item.children.some((child) => child.link === location.pathname);
+      {/* Sidebar */}
+      <div
+        ref={sidebarRef}
+        className={`
+          fixed lg:static inset-y-0 left-0 z-50 w-72 
+          transform transition-transform duration-300 ease-in-out
+          ${
+            isMobile
+              ? isOpen
+                ? "translate-x-0"
+                : "-translate-x-full"
+              : "translate-x-0"
+          }
+          bg-gradient-to-b from-[#B5ED90] to-[#A5DD80] 
+          shadow-xl lg:shadow-none
+          flex flex-col h-screen
+        `}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-white/20">
+          <div className="flex items-center justify-center flex-1">
+            <img src={logo} alt="Logo" className="w-20 h-20 object-contain" />
+          </div>
+          {isMobile && (
+            <button
+              onClick={onClose}
+              className="p-2 rounded-lg text-white hover:bg-white/10 transition-colors"
+            >
+              <MdClose className="w-6 h-6" />
+            </button>
+          )}
+        </div>
 
-            const isCategoriesActive =
-              item.key === "categoriesManagement" &&
-              item.children.some((child) => child.link === location.pathname);
+        {/* Navigation Menu */}
+        <div className="flex-1 overflow-y-auto py-4 px-2 md:px-3 scrollbar-thin scrollbar-thumb-white/20">
+          <nav className="space-y-2">
+            {AdminItems.map((item) => {
+              const isActive =
+                selectedKey === item.key ||
+                (item.children &&
+                  item.children.some((child) => selectedKey === child.key));
+              const isExpanded = expandedKeys.includes(item.key);
 
-            return (
-              <div key={item.key}>
-                <Link
-                  to={item.link}
-                  className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
-                    selectedKey === item.key ||
-                    isSettingsActive ||
-                    isCreatorActive ||
-                    isCategoriesActive
-                      ? "bg-[#0B704E] text-white rounded-md"
-                      : "bg-white rounded-md hover:bg-[#B3D3C8]"
-                  }`}
-                  onClick={(e) => {
-                    if (item.children) {
-                      e.preventDefault();
-                      onParentClick(item.key);
-                    } else {
-                      setSelectedKey(item.key);
-                    }
-                  }}
-                >
-                  <item.icon className="w-5 h-5 mr-3" />
-                  <span className="block w-full ">{item.label}</span>
-
-                  {/* Show dropdown arrow if children exist */}
-                  {item.children && (
-                    <FaChevronRight
-                      className={`ml-auto transform transition-all duration-300 ${
-                        expandedKeys.includes(item.key) ? "rotate-90" : ""
-                      }`}
-                    />
-                  )}
-                </Link>
-
-                {/* Show children menu if expanded */}
-                {item.children && (
-                  <div
-                    className={`children-menu bg-white -my-2 mx-5 transition-all duration-300 ${
-                      expandedKeys.includes(item.key) ? "expanded" : ""
-                    }`}
-                    style={{
-                      maxHeight: expandedKeys.includes(item.key)
-                        ? `${contentRef.current[item.key]?.scrollHeight}px`
-                        : "0",
-                    }}
-                    ref={(el) => (contentRef.current[item.key] = el)}
+              return (
+                <div key={item.key} className="space-y-1">
+                  <Link
+                    to={item.link}
+                    className={`
+                      group flex items-center px-4 py-3 text-sm font-medium rounded-xl
+                      transition-all duration-200 ease-in-out
+                      ${
+                        isActive
+                          ? "bg-white text-[#0B704E] shadow-lg transform scale-[1.02]"
+                          : "text-white hover:bg-white/10 hover:text-white"
+                      }
+                    `}
+                    onClick={(e) => handleItemClick(item, e)}
                   >
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.key}
-                        to={child.link}
-                        className={`menu-item p-4 flex items-center cursor-pointer ${
-                          selectedKey === child.key
-                            ? "bg-[#0B704E] text-white"
-                            : "hover:bg-[#B3D3C8]"
-                        }`}
-                        onClick={() => {
-                          setSelectedKey(child.key); // Set the selected key for children
-                          setExpandedKeys([]); // Close all expanded items
-                        }}
-                      >
-                        <span className="block w-full ">{child.label}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+                    <item.icon
+                      className={`
+                      w-5 h-5 mr-3 transition-colors
+                      ${
+                        isActive
+                          ? "text-[#0B704E]"
+                          : "text-white/80 group-hover:text-white"
+                      }
+                    `}
+                    />
+                    <span className="flex-1 truncate">{item.label}</span>
+
+                    {item.children && (
+                      <FaChevronDown
+                        className={`
+                        w-4 h-4 ml-2 transition-transform duration-200
+                        ${isExpanded ? "rotate-180" : "rotate-0"}
+                        ${isActive ? "text-[#0B704E]" : "text-white/60"}
+                      `}
+                      />
+                    )}
+                  </Link>
+
+                  {/* Submenu */}
+                  {item.children && (
+                    <div
+                      className={`
+                        overflow-hidden transition-all duration-300 ease-in-out
+                        ${
+                          isExpanded
+                            ? "max-h-96 opacity-100"
+                            : "max-h-0 opacity-0"
+                        }
+                      `}
+                    >
+                      <div className="ml-4 mt-1 space-y-1 border-l-2 border-white/20 pl-4">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.key}
+                            to={child.link}
+                            className={`
+                              block px-4 py-2 text-sm rounded-lg transition-all duration-200
+                              ${
+                                selectedKey === child.key
+                                  ? "bg-white/20 text-white font-medium"
+                                  : "text-white/80 hover:bg-white/10 hover:text-white"
+                              }
+                            `}
+                            onClick={() => handleChildClick(child)}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Logout Button */}
+        <div className="p-4 border-t border-white/20">
+          <button
+            onClick={handleLogout}
+            className="
+              w-full flex items-center px-4 py-3 text-sm font-medium
+              bg-[#0B704E] text-white rounded-xl
+              hover:bg-[#0A5F42] active:bg-[#094D35]
+              transition-all duration-200 ease-in-out
+              shadow-lg hover:shadow-xl transform hover:scale-[1.02]
+            "
+          >
+            <IoIosLogIn className="w-5 h-5 mr-3" />
+            <span>Log Out</span>
+          </button>
         </div>
       </div>
-
-      {/* Logout Button */}
-      <div className="  w-full p-4 px-5">
-        <button
-          onClick={handleLogout}
-          className="w-full flex bg-[#0B704E] text-white text-start rounded-md p-3 mt-10"
-        >
-          <span className="text-2xl">
-            <IoIosLogIn />
-          </span>
-          <span className="ml-3">Log Out</span>
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

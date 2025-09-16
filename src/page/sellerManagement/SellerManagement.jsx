@@ -156,13 +156,6 @@ const SellerManagement = () => {
             >
               <BsPatchCheckFill className="w-6 h-6 text-[#14803c]" />
             </button>
-            <Link to="/chat">
-              <button className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200"
-                title="Chat"
-              >
-                <IoChatbubbleEllipsesOutline className="w-6 h-6 text-[#14803c]" />
-              </button>
-            </Link>
             {record?.isBlocked ? (
               <button
                 onClick={() => showModal(record, 'unblock')}

@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import "antd/dist/reset.css";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
@@ -8,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/Slice/authSlice";
 import Swal from "sweetalert2";
 
-function SignIn() {
+export default function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -77,131 +78,146 @@ function SignIn() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white p-5">
-      <div className="bg-white shadow-lg relative rounded-2xl px-5 py-20 w-full max-w-xl text-center">
-        <BrandLogo
-          status="Login to your account"
-          information="please enter your email and password to continue."
-        />
-        <form className="space-y-5" onSubmit={handleSubmit}>
-          <div className="w-full">
-            <label className="text-xl text-gray-800 mb-2 flex justify-start text-start">
-              Email address
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              className="w-full px-5 py-3 bg-white text-gray-600 border-2 border-[#FF62BD] rounded-lg outline-none mt-5 placeholder:text-gray-600"
-              required
-            />
-          </div>
-          <div className="w-full">
-            <label className="text-xl text-gray-800 mb-2 flex justify-start text-start">
-              Password
-            </label>
-            <div className="w-full relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="**********"
-                className="w-full px-5 py-3 bg-white text-gray-600 border-2 border-[#FF62BD] rounded-lg outline-none mt-5 placeholder:text-gray-600"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 bottom-4 flex items-center text-gray-400"
-              >
-                {showPassword ? (
-                  <IoEyeOffOutline className="w-5 h-5 text-[#FF62BD]" />
-                ) : (
-                  <IoEyeOutline className="w-5 h-5 text-[#FF62BD]" />
-                )}
-              </button>
+    <div className="min-h-screen bg-gradient-to-br from-[#B5ED90] via-[#A5DD80] to-[#95CD70] flex items-center justify-center p-4">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full blur-xl"></div>
+        <div className="absolute top-40 right-20 w-32 h-32 bg-white rounded-full blur-xl"></div>
+        <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-white rounded-full blur-xl"></div>
+        <div className="absolute bottom-40 right-1/3 w-16 h-16 bg-white rounded-full blur-xl"></div>
+      </div>
+      
+      <div className="relative w-full max-w-md">
+        {/* Main Card */}
+        <div className="bg-white/95 backdrop-blur-sm shadow-2xl rounded-3xl p-8 border border-white/20">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-[#B5ED90] to-[#A5DD80] rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
             </div>
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+            <p className="text-gray-600">Sign in to your pet business dashboard</p>
           </div>
 
-          <div className="flex justify-between items-center text-sm my-5">
-            <label className="flex items-center gap-[10px] cursor-pointer">
-              <input
-                type="checkbox"
-                className="hidden"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />
-              {isChecked ? (
-                <svg
-                  width="21"
-                  height="21"
-                  viewBox="0 0 21 21"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g id="Group 335">
-                    <rect
-                      id="Rectangle 331"
-                      x="-0.00012207"
-                      y="6.10352e-05"
-                      width="21"
-                      height="21"
-                      rx="4"
-                      className="fill-[#FF62BD]"
-                      stroke="#FF62BD"
-                    ></rect>
-                    <path
-                      id="Vector"
-                      d="M8.19594 15.4948C8.0646 15.4949 7.93453 15.4681 7.81319 15.4157C7.69186 15.3633 7.58167 15.2865 7.48894 15.1896L4.28874 11.8566C4.10298 11.6609 3.99914 11.3965 3.99988 11.1213C4.00063 10.8461 4.10591 10.5824 4.29272 10.3878C4.47953 10.1932 4.73269 10.0835 4.99689 10.0827C5.26109 10.0819 5.51485 10.1901 5.70274 10.3836L8.19591 12.9801L14.2887 6.6335C14.4767 6.4402 14.7304 6.3322 14.9945 6.33307C15.2586 6.33395 15.5116 6.44362 15.6983 6.63815C15.8851 6.83268 15.9903 7.09627 15.9912 7.37137C15.992 7.64647 15.8883 7.91073 15.7027 8.10648L8.90294 15.1896C8.8102 15.2865 8.7 15.3633 8.57867 15.4157C8.45734 15.4681 8.32727 15.4949 8.19594 15.4948Z"
-                      fill="white"
-                    ></path>
-                  </g>
-                </svg>
-              ) : (
-                <svg
-                  width="21"
-                  height="21"
-                  viewBox="0 0 21 21"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g id="Group 335">
-                    <rect
-                      id="Rectangle 331"
-                      x="-0.00012207"
-                      y="6.10352e-05"
-                      width="21"
-                      height="21"
-                      rx="4"
-                      className="fill-transparent"
-                      stroke="#FF62BD"
-                    ></rect>
-                  </g>
-                </svg>
-              )}
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Email Field */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700 block">
+                Email Address
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#B5ED90] focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                  required
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
 
-              <span className="text-xl text-gray-600">Remember Password</span>
-            </label>
-            <Link to="/forget-password" className="text-[#FF62BD] text-xl">
-              Forgot Password?
-            </Link>
-          </div>
+            {/* Password Field */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700 block">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#B5ED90] focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  {showPassword ? (
+                    <IoEyeOffOutline className="w-5 h-5" />
+                  ) : (
+                    <IoEyeOutline className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </div>
 
-          <div className="flex justify-center items-center text-[#000000]">
+            {/* Remember Me & Forgot Password */}
+            <div className="flex items-center justify-between">
+              <label className="flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                  className="w-4 h-4 text-[#B5ED90] bg-gray-100 border-gray-300 rounded focus:ring-[#B5ED90] focus:ring-2"
+                />
+                <span className="text-sm text-gray-600">Remember me</span>
+              </label>
+              <Link 
+                to="/forget-password" 
+                className="text-sm text-[#B5ED90] hover:text-[#A5DD80] font-medium transition-colors"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
+            {/* Error Display */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
+                <div className="flex items-center space-x-2">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <span>{error}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#B5ED90] font-semibold py-3 px-6 rounded-lg shadow-lg cursor-pointer mt-5"
+              disabled={isLoading}
+              className={`w-full py-3 px-4 rounded-xl font-semibold text-white transition-all duration-200 transform ${
+                isLoading
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-gradient-to-r from-[#B5ED90] to-[#A5DD80] hover:from-[#A5DD80] hover:to-[#95CD70] hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+              }`}
             >
-              {isLoading ? "Signing In..." : "Sign In"}
+              {isLoading ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Signing In...</span>
+                </div>
+              ) : (
+                "Sign In"
+              )}
             </button>
+          </form>
+
+          {/* Footer */}
+          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-[#B5ED90] hover:text-[#A5DD80] font-medium transition-colors">
+                Sign up here
+              </Link>
+            </p>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 }
-
-export default SignIn;

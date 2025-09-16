@@ -14,7 +14,6 @@ import AdPromotion from "../page/AdPromotion/AdPromotion";
 import Faq from "../page/Settings/Faq";
 import Support from "../page/Support/Support";
 import CategoryManagement from "../page/CategoryManagement/CategoryManagement";
-import Chat from "../page/Chat/Chat";
 import ResetPassword from "../auth/ResetPassword";
 import ForgetPassword from "../auth/ForgetPassword";
 import Users from "../page/UserManagement/Users";
@@ -83,10 +82,6 @@ export const router = createBrowserRouter([
       {
         path: "/faq",
         element: <Faq />,
-      },
-      {
-        path: "/chat",
-        element: <Chat />,
       },
       {
         path: "/support",

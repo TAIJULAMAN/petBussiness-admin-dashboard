@@ -11,7 +11,7 @@ import { logout } from "../../redux/Slice/authSlice";
 
 
 
-const Header = () => {
+const Header = ({ onToggleSidebar }) => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]);
   const navigate = useNavigate();
@@ -45,7 +45,10 @@ const Header = () => {
     <div className="bg-[#B5ED90] text-white px-5 py-4">
       <div className="flex justify-between items-center">
         <div className="lg:hidden">
-          <button onClick={showDrawer} className="p-2">
+          <button 
+            onClick={onToggleSidebar} 
+            className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+          >
             <FaBars size={24} />
           </button>
           <Drawer
