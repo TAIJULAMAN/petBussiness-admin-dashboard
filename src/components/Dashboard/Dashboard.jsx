@@ -24,7 +24,7 @@ function DashboardPage() {
   );
 
   const { data: dashboardData, isLoading } = useGetAllDashboardQuery();
-  // console.log("dashboardData ", dashboardData);
+  console.log("dashboardData ", dashboardData);
   const totalUsers = dashboardData?.data?.totalUsers;
   const totalIncome = dashboardData?.data?.totalIncome;
   const totalSellers = dashboardData?.data?.totalSellers;

@@ -14,20 +14,18 @@ function TermsAndCondition() {
   const [updateTermsAndConditions, { isLoading: isUpdating }] =
     useUpdateTermsAndConditionsMutation();
 
-  // Update content when data is fetched
   useEffect(() => {
-    if (data?.success && data?.termsConditions?.description) {
-      setContent(data.termsConditions.description);
+    if (data?.success && data?.data?.description) {
+      setContent(data?.data?.description);
     }
   }, [data]);
 
   const handleSave = async () => {
     try {
       await updateTermsAndConditions({
-        requestData: { description: content },
+        description: content,
       }).unwrap();
 
-      // Show success toast
       Swal.fire({
         icon: "success",
         title: "Success!",
@@ -36,7 +34,6 @@ function TermsAndCondition() {
         showConfirmButton: false,
       });
     } catch (err) {
-      // Show error toast
       Swal.fire({
         icon: "error",
         title: "Error!",

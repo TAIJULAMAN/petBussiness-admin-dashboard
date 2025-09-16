@@ -2,25 +2,29 @@ import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import PageHeading from "../../shared/PageHeading";
-import { useGetPrivacyQuery, useUpdatePrivacyMutation } from "../../redux/api/privacyApi";
+import {
+  useGetPrivacyQuery,
+  useUpdatePrivacyMutation,
+} from "../../redux/api/privacyApi";
 import Swal from "sweetalert2";
 
 function PrivacyPolicy() {
   const [content, setContent] = useState("");
   const { data, isLoading, error } = useGetPrivacyQuery();
+  console.log("data of privacy", data);
   const [updatePrivacy, { isLoading: isUpdating }] = useUpdatePrivacyMutation();
 
-  // Update content when data is fetched
+  // Update content
   useEffect(() => {
-    if (data?.success && data?.privacy?.description) {
-      setContent(data.privacy.description);
+    if (data?.success && data?.data?.description) {
+      setContent(data?.data?.description);
     }
   }, [data]);
 
   const handleSave = async () => {
     try {
       await updatePrivacy({
-        requestData: { description: content }
+        requestData: { description: content },
       }).unwrap();
 
       // Show success toast
@@ -63,7 +67,9 @@ function PrivacyPolicy() {
         <div className="bg-white rounded shadow p-5 h-full flex items-center justify-center">
           <div className="text-center text-red-500">
             <p>Error loading privacy policy</p>
-            <p className="text-sm mt-2">{error?.data?.message || "Something went wrong"}</p>
+            <p className="text-sm mt-2">
+              {error?.data?.message || "Something went wrong"}
+            </p>
           </div>
         </div>
       </div>
