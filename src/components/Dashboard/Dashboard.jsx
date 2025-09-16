@@ -1,6 +1,5 @@
 import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
-import dayjs from "dayjs";
 import user from "../../assets/user.svg";
 import medal from "../../assets/medal.svg";
 import profit from "../../assets/profit.svg";
@@ -9,14 +8,44 @@ import SubscriptionGrowth from "./SubscriptionGrowth";
 import SellerGrowth from "./SellerGrowth";
 import RecentSellerRequests from "./RecentSellerRequests";
 import { Modal } from "antd";
+import { useGetAllDashboardQuery } from "../../redux/api/dashboardApi";
 
 function DashboardPage() {
+  const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const startYear = 2023;
+  const endYear = currentYear + 1;
+  const years = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, i) => startYear + i
+  );
+
   const { data: dashboardData, isLoading } = useGetAllDashboardQuery();
-  console.log("dashboardData ", dashboardData);
+  // console.log("dashboardData ", dashboardData);
   const totalUsers = dashboardData?.data?.totalUsers;
   const totalIncome = dashboardData?.data?.totalIncome;
   const totalSellers = dashboardData?.data?.totalSellers;
   const totalSubscribers = dashboardData?.data?.totalSubscribers;
+
+  const handleSelect = (year) => {
+    setSelectedYear(year);
+    setIsOpen(false);
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   if (isLoading) {
     return (
@@ -90,7 +119,6 @@ function DashboardPage() {
               className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
             ></div>
 
-
             {/* Card Content */}
             <div className="relative p-6">
               {/* Icon Section */}
@@ -104,12 +132,10 @@ function DashboardPage() {
                 />
               </div>
 
-
               {/* Title */}
               <h3 className="text-gray-600 text-sm font-medium mb-2 uppercase tracking-wide">
                 {card.title}
               </h3>
-
 
               {/* Value and Change */}
               <div className="flex items-end justify-between">
@@ -120,7 +146,6 @@ function DashboardPage() {
                 </div>
               </div>
 
-
               {/* Decorative Element */}
               <div
                 className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${card.color} opacity-10 rounded-bl-full`}
@@ -128,78 +153,13 @@ function DashboardPage() {
             </div>
           </div>
         ))}
-
       </div>
       {/* .............. */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">
-          <div className="flex flex-col md:flex-row md:justify-between lg:justify-between items-center gap-5 my-5">
-            <div>
-              <h1 className="text-xl font-semibold">Seller Growth</h1>
-            </div>
-
-            <div className="relative w-full md:w-32">
-              {/* Selected Year Display */}
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md flex justify-between items-center bg-white transition"
-              >
-                <span className="text-[#0B704E]">{selectedYear}</span>
-                <FaChevronDown className="text-[#0B704E] w-5 h-5 ml-5" />
-              </button>
-
-              {/* Dropdown List */}
-              {isOpen && (
-                <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
-                  {years.map((year) => (
-                    <div
-                      key={year}
-                      onClick={() => handleSelect(year)}
-                      className={`p-2 cursor-pointer hover:bg-gray-100 transition ${
-                        year === selectedYear ? "bg-gray-200" : ""
-                      }`}
-                    >
-                      {year}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
           <SubscriptionGrowth />
         </div>
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">
-          <div className="flex flex-col md:flex-row md:justify-between lg:justify-between items-center gap-5 my-5">
-            <div>
-              <h1 className="text-xl font-semibold">User Growth</h1>
-            </div>
-            <div className="relative w-full md:w-32">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md flex justify-between items-center bg-white transition"
-              >
-                <span className="text-[#0B704E]">{selectedYear}</span>
-                <FaChevronDown className="text-[#0B704E] w-5 h-5 ml-5" />
-              </button>
-
-              {/* Dropdown List */}
-              {isOpen && (
-                <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg text-lg">
-                  {years.map((year) => (
-                    <div
-                      key={year}
-                      onClick={() => handleSelect(year)}
-                      className={`p-2 cursor-pointer hover:bg-gray-100 transition ${
-                        year === selectedYear ? "bg-gray-200" : ""
-                      }`}
-                    >
-                      {year}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
           <SellerGrowth />
         </div>
       </div>

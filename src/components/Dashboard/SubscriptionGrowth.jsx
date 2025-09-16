@@ -12,6 +12,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useGetAllDashboardQuery } from "../../redux/api/dashboardApi";
 
 export default function SellerGrowth() {
   const currentYear = new Date().getFullYear();
@@ -184,4 +185,3 @@ export default function SellerGrowth() {
     </>
   );
 }
-
