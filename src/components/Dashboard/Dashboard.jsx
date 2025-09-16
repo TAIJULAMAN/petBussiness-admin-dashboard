@@ -1,3 +1,6 @@
+import { FaChevronDown } from "react-icons/fa";
+import { useState } from "react";
+import dayjs from "dayjs";
 import user from "../../assets/user.svg";
 import medal from "../../assets/medal.svg";
 import profit from "../../assets/profit.svg";
@@ -5,7 +8,7 @@ import seller from "../../assets/seller.svg";
 import SubscriptionGrowth from "./SubscriptionGrowth";
 import SellerGrowth from "./SellerGrowth";
 import RecentSellerRequests from "./RecentSellerRequests";
-import { useGetAllDashboardQuery } from "../../redux/api/dashboardApi";
+import { Modal } from "antd";
 
 function DashboardPage() {
   const { data: dashboardData, isLoading } = useGetAllDashboardQuery();
@@ -87,6 +90,7 @@ function DashboardPage() {
               className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
             ></div>
 
+
             {/* Card Content */}
             <div className="relative p-6">
               {/* Icon Section */}
@@ -100,10 +104,12 @@ function DashboardPage() {
                 />
               </div>
 
+
               {/* Title */}
               <h3 className="text-gray-600 text-sm font-medium mb-2 uppercase tracking-wide">
                 {card.title}
               </h3>
+
 
               {/* Value and Change */}
               <div className="flex items-end justify-between">
@@ -114,6 +120,7 @@ function DashboardPage() {
                 </div>
               </div>
 
+
               {/* Decorative Element */}
               <div
                 className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${card.color} opacity-10 rounded-bl-full`}
@@ -121,22 +128,109 @@ function DashboardPage() {
             </div>
           </div>
         ))}
-      </div>
 
+      </div>
       {/* .............. */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">
+          <div className="flex flex-col md:flex-row md:justify-between lg:justify-between items-center gap-5 my-5">
+            <div>
+              <h1 className="text-xl font-semibold">Seller Growth</h1>
+            </div>
+
+            <div className="relative w-full md:w-32">
+              {/* Selected Year Display */}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md flex justify-between items-center bg-white transition"
+              >
+                <span className="text-[#0B704E]">{selectedYear}</span>
+                <FaChevronDown className="text-[#0B704E] w-5 h-5 ml-5" />
+              </button>
+
+              {/* Dropdown List */}
+              {isOpen && (
+                <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
+                  {years.map((year) => (
+                    <div
+                      key={year}
+                      onClick={() => handleSelect(year)}
+                      className={`p-2 cursor-pointer hover:bg-gray-100 transition ${
+                        year === selectedYear ? "bg-gray-200" : ""
+                      }`}
+                    >
+                      {year}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <SubscriptionGrowth />
         </div>
-
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">
+          <div className="flex flex-col md:flex-row md:justify-between lg:justify-between items-center gap-5 my-5">
+            <div>
+              <h1 className="text-xl font-semibold">User Growth</h1>
+            </div>
+            <div className="relative w-full md:w-32">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md flex justify-between items-center bg-white transition"
+              >
+                <span className="text-[#0B704E]">{selectedYear}</span>
+                <FaChevronDown className="text-[#0B704E] w-5 h-5 ml-5" />
+              </button>
+
+              {/* Dropdown List */}
+              {isOpen && (
+                <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg text-lg">
+                  {years.map((year) => (
+                    <div
+                      key={year}
+                      onClick={() => handleSelect(year)}
+                      className={`p-2 cursor-pointer hover:bg-gray-100 transition ${
+                        year === selectedYear ? "bg-gray-200" : ""
+                      }`}
+                    >
+                      {year}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <SellerGrowth />
         </div>
       </div>
       <div className="mt-5">
         <h1 className="text-2xl font-bold mb-5">Business owners Requests</h1>
-        <RecentSellerRequests />
+        <RecentSellerRequests showModal={showModal} />
       </div>
+      <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null}>
+        <div className="p-5">
+          <h1 className="text-4xl text-center text-[#0D0D0D]">
+            Are you sure you want to block ?
+          </h1>
+
+          <div className="text-center py-5">
+            <button
+              onClick={handleOk}
+              className="bg-[#14803c] text-white font-semibold w-full py-2 rounded transition duration-200"
+            >
+              Yes,Block
+            </button>
+          </div>
+          <div className="text-center pb-5">
+            <button
+              onClick={handleOk}
+              className="text-[#14803c] border-2 border-green-600 bg-white font-semibold w-full py-2 rounded transition duration-200"
+            >
+              No,Don’t Block
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

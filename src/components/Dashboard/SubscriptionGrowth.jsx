@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
+
 import React from "react";
 import { useState, useEffect, useMemo } from "react";
 import { FaChevronDown } from "react-icons/fa";
+
 import {
   Area,
   AreaChart,
@@ -10,7 +12,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useGetAllDashboardQuery } from "../../redux/api/dashboardApi";
 
 export default function SellerGrowth() {
   const currentYear = new Date().getFullYear();
@@ -106,12 +107,10 @@ export default function SellerGrowth() {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload;
       return (
         <div className="bg-[#202020] text-white p-3 rounded-lg shadow-lg border border-[#B5ED90]">
           <p className="font-medium">{`Month: ${label}`}</p>
-          <p className="font-medium text-[#FF62BD]">{`Total Sellers: ${payload[0].value}`}</p>
-          <p className="font-medium text-[#B5ED90]">{`New This Month: ${data.count}`}</p>
+          <p className="font-medium text-[#FF62BD]">{`Vendors: ${payload[0].value}`}</p>
         </div>
       );
     }
@@ -185,3 +184,4 @@ export default function SellerGrowth() {
     </>
   );
 }
+

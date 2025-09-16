@@ -6,17 +6,19 @@ import logo from "../../assets/header/logo.png";
 import { FaBars, FaChevronRight } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import { AdminItems } from "./SideBar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/Slice/authSlice";
 
 
 
-const Header = () => {
+const Header = ({ onToggleSidebar }) => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]);
   const navigate = useNavigate();
   const contentRef = useRef({});
   const [open, setOpen] = useState(false);
   const [placement] = useState("left");
+  const dispatch = useDispatch();
   
   // Get user data from Redux store
   const { user } = useSelector((state) => state.auth);
@@ -35,6 +37,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
+    dispatch(logout());
     navigate("/login");
   };
 
@@ -42,7 +45,10 @@ const Header = () => {
     <div className="bg-[#B5ED90] text-white px-5 py-4">
       <div className="flex justify-between items-center">
         <div className="lg:hidden">
-          <button onClick={showDrawer} className="p-2">
+          <button 
+            onClick={onToggleSidebar} 
+            className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+          >
             <FaBars size={24} />
           </button>
           <Drawer

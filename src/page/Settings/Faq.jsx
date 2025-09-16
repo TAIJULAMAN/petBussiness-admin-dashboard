@@ -1,8 +1,8 @@
 import { Modal } from "antd";
 import { useState, useEffect } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
-import { FaChevronDown } from "react-icons/fa6";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaChevronDown } from "react-icons/fa"; // Changed from fa6 to fa
+import { RiDeleteBin6Line, RiDeleteBinLine } from "react-icons/ri"; // Changed from RiDeleteBin6Line to RiDeleteBinLine
 import { CiEdit } from "react-icons/ci";
 import PageHeading from "../../shared/PageHeading";
 import { useGetAllFaqQuery, useCreateFaqMutation, useUpdateFaqMutation, useDeleteFaqMutation } from "../../redux/api/faqApi";
@@ -219,7 +219,7 @@ const Faq = () => {
                         e.stopPropagation();
                         showModal(accordion._id);
                       }}>
-                        <RiDeleteBin6Line className="text-2xl cursor-pointer text-red-500 transition-all" />
+                        <RiDeleteBinLine className="text-2xl cursor-pointer text-red-500 transition-all" />
                       </button>
                     </div>
                   </div>
@@ -261,10 +261,10 @@ const Faq = () => {
           </div>
           <div className="text-center pb-5">
             <button
-              onClick={handleOk}
+              onClick={handleCancel}
               className="text-[#14803c] border-2 border-green-600 bg-white font-semibold w-full py-2 rounded transition duration-200"
             >
-              NO,DON’T DELETE
+              NO,DON'T DELETE
             </button>
           </div>
         </div>

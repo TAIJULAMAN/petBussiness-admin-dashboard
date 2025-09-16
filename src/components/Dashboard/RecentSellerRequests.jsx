@@ -2,7 +2,6 @@
 import { ConfigProvider, Table, Spin } from "antd";
 import { useGetAllDashboardQuery } from "../../redux/api/dashboardApi";
 import { useMemo } from "react";
-
 const RecentSellerRequests = () => {
   const { data: dashboardData, isLoading } = useGetAllDashboardQuery();
   // console.log("dashboardData ", dashboardData);
