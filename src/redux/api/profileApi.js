@@ -30,7 +30,7 @@ const profileApi = baseApi.injectEndpoints({
 
     changeAdminPassword: builder.mutation({
       query: (data) => ({
-        url: "user/change_password",
+        url: "admin/change-password",
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
