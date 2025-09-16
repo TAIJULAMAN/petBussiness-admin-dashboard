@@ -7,7 +7,6 @@ import { useLogInMutation } from "../redux/api/authApi";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/Slice/authSlice";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -84,7 +83,7 @@ function SignIn() {
           status="Login to your account"
           information="please enter your email and password to continue."
         />
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div className="w-full">
             <label className="text-xl text-gray-800 mb-2 flex justify-start text-start">
               Email address
@@ -191,16 +190,14 @@ function SignIn() {
             </Link>
           </div>
 
-          <Link to="/">
-            <div className="flex justify-center items-center text-[#000000]">
-              <button
-                type="submit"
-                className="w-full bg-[#B5ED90] font-semibold py-3 px-6 rounded-lg shadow-lg cursor-pointer mt-5"
-              >
-                Sign In
-              </button>
-            </div>
-          </Link>
+          <div className="flex justify-center items-center text-[#000000]">
+            <button
+              type="submit"
+              className="w-full bg-[#B5ED90] font-semibold py-3 px-6 rounded-lg shadow-lg cursor-pointer mt-5"
+            >
+              {isLoading ? "Signing In..." : "Sign In"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

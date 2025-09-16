@@ -87,6 +87,7 @@ const SellerManagement = () => {
     setCurrentPage(pagination.current);
     setPageSize(pagination.pageSize);
   };
+
   // Process API data for table
   const dataSource = businessOwnersData?.owners?.map((owner, index) => ({
     key: owner._id,
@@ -245,6 +246,7 @@ const SellerManagement = () => {
           onChange={handleTableChange}
           scroll={{ x: "max-content" }}
         />
+        
         {/* Block/Unblock Modal */}
         <Modal
           open={isModalOpen}
