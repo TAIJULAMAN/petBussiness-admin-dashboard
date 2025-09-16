@@ -24,11 +24,8 @@ const Users = () => {
     limit: pageSize,
     search: searchTerm || undefined,
   });
+  console.log("petOwnersData",petOwnersData);
 
-  // Show error message if API call fails
-  if (error) {
-    message.error(`Failed to load pet owners: ${error.message || 'Unknown error'}`);
-  }
 
   const [blockPetOwner, { isLoading: isBlocking }] = useBlockPetOwnerMutation();
   const [unblockPetOwner, { isLoading: isUnblocking }] = useUnblockPetOwnerMutation();
@@ -138,7 +135,7 @@ const Users = () => {
           {record?.isBlocked ? (
             <button
               onClick={() => showModal(record, 'unblock')}
-              className="border border-green-600 text-green-600 rounded-lg p-2 bg-green-100 hover:bg-green-200 transition duration-200"
+              className="border border-red-600 text-red-600 rounded-lg p-2"
               title="Unblock User"
               disabled={isUnblocking}
             >
@@ -147,7 +144,7 @@ const Users = () => {
           ) : (
             <button
               onClick={() => showModal(record, 'block')}
-              className="border border-red-600 text-red-600 rounded-lg p-2 bg-red-100 hover:bg-red-200 transition duration-200"
+              className="border border-green-600 text-green-600 rounded-lg p-2"
               title="Block User"
               disabled={isBlocking}
             >

@@ -5,7 +5,12 @@ import { FaChevronDown } from "react-icons/fa"; // Changed from fa6 to fa
 import { RiDeleteBin6Line, RiDeleteBinLine } from "react-icons/ri"; // Changed from RiDeleteBin6Line to RiDeleteBinLine
 import { CiEdit } from "react-icons/ci";
 import PageHeading from "../../shared/PageHeading";
-import { useGetAllFaqQuery, useCreateFaqMutation, useUpdateFaqMutation, useDeleteFaqMutation } from "../../redux/api/faqApi";
+import {
+  useGetAllFaqQuery,
+  useCreateFaqMutation,
+  useUpdateFaqMutation,
+  useDeleteFaqMutation,
+} from "../../redux/api/faqApi";
 import Swal from "sweetalert2";
 
 const Faq = () => {
@@ -147,7 +152,6 @@ const Faq = () => {
     }
   }, [addModalOpen, updateModalOpen]);
 
-  // Populate form when editing
   useEffect(() => {
     if (selectedFaq && updateModalOpen) {
       setQuestion(selectedFaq.question);
@@ -180,7 +184,9 @@ const Faq = () => {
         <div className="bg-white rounded shadow p-5 h-full flex items-center justify-center mt-5">
           <div className="text-center text-red-500">
             <p>Error loading FAQs</p>
-            <p className="text-sm mt-2">{error?.data?.message || "Something went wrong"}</p>
+            <p className="text-sm mt-2">
+              {error?.data?.message || "Something went wrong"}
+            </p>
           </div>
         </div>
       ) : (
@@ -191,34 +197,38 @@ const Faq = () => {
                 key={accordion._id}
                 className="border-b border-[#e5eaf2] rounded py-3"
               >
-                <div
-                  className="flex gap-2 cursor-pointer items-center justify-between w-full"
-                  onClick={() => handleClick(index)}
-                >
+                <div className="flex gap-2 cursor-pointer items-center justify-between w-full">
                   <h2 className="text-base font-normal md:font-bold md:text-2xl flex gap-2 items-center">
                     <FaRegQuestionCircle className="w-5 h-5 hidden md:flex" />
                     {accordion.question}
                   </h2>
                   <div className="flex gap-2 md:gap-4 items-center">
                     <FaChevronDown
+                      onClick={() => handleClick(index)}
                       className={`w-5 h-5 text-[#0D0D0D] transition-all duration-300 ${
                         isAccordionOpen === index &&
                         "rotate-[180deg] !text-[#14803c]"
                       }`}
                     />
-                    <div className="border-2 px-1.5 py-1 rounded border-[#14803c] bg-[#f0fcf4]">
-                      <button className="" onClick={(e) => {
+                    <div
+                      onClick={(e) => {
                         e.stopPropagation();
                         showModal3(accordion);
-                      }}>
+                      }}
+                      className="border-2 px-1.5 py-1 rounded border-[#14803c] bg-[#f0fcf4]"
+                    >
+                      <button className="">
                         <CiEdit className="text-2xl cursor-pointer text-[#14803c] font-bold transition-all" />
                       </button>
                     </div>
-                    <div className="border-2 px-1.5 py-1 rounded border-[#14803c] bg-[#f0fcf4]">
-                      <button className="" onClick={(e) => {
+                    <div
+                      onClick={(e) => {
                         e.stopPropagation();
                         showModal(accordion._id);
-                      }}>
+                      }}
+                      className="border-2 px-1.5 py-1 rounded border-[#14803c] bg-[#f0fcf4]"
+                    >
+                      <button className="">
                         <RiDeleteBinLine className="text-2xl cursor-pointer text-red-500 transition-all" />
                       </button>
                     </div>
@@ -239,7 +249,9 @@ const Faq = () => {
             ))
           ) : (
             <div className="text-center py-10">
-              <p className="text-gray-500">No FAQs available. Add your first FAQ!</p>
+              <p className="text-gray-500">
+                No FAQs available. Add your first FAQ!
+              </p>
             </div>
           )}
         </div>
@@ -330,7 +342,9 @@ const Faq = () => {
               onClick={handleAddFaq}
               disabled={isCreating}
               className={`py-2 px-4 rounded-lg text-white ${
-                isCreating ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                isCreating
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700"
               }`}
             >
               {isCreating ? "Saving..." : "Save"}
@@ -399,7 +413,9 @@ const Faq = () => {
               onClick={handleUpdateFaq}
               disabled={isUpdating}
               className={`py-2 px-4 rounded-lg text-white ${
-                isUpdating ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                isUpdating
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700"
               }`}
             >
               {isUpdating ? "Updating..." : "Save"}

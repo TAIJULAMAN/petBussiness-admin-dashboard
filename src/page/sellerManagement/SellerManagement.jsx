@@ -93,6 +93,7 @@ const SellerManagement = () => {
     no: (currentPage - 1) * pageSize + index + 1,
     ...owner,
   })) || [];
+  console.log("dataSource of sellerManagement",dataSource);
 
   const columns = [
     { title: "No", dataIndex: "no", key: "no" },
