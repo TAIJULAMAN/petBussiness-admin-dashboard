@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import React from "react";
 import { useState, useEffect, useMemo } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import {
@@ -11,14 +12,18 @@ import {
 } from "recharts";
 import { useGetAllDashboardQuery } from "../../redux/api/dashboardApi";
 
-const SellerGrowth = () => {
+export default function SellerGrowth() {
   const currentYear = new Date().getFullYear();
   const [chartHeight, setChartHeight] = useState(300);
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [isOpen, setIsOpen] = useState(false);
 
   // Use skip to prevent unnecessary API calls and add caching
-  const { data: dashboardData, isLoading, isFetching } = useGetAllDashboardQuery(
+  const {
+    data: dashboardData,
+    isLoading,
+    isFetching,
+  } = useGetAllDashboardQuery(
     { year: selectedYear },
     {
       skip: false,
@@ -57,12 +62,13 @@ const SellerGrowth = () => {
 
   // Memoize data processing to prevent unnecessary recalculations
   const chartData = useMemo(() => {
-    const sellerGrowthData = dashboardData?.data?.sellerGrowth?.monthlyData || [];
+    const sellerGrowthData =
+      dashboardData?.data?.sellerGrowth?.monthlyData || [];
     const currentYearData =
       dashboardData?.data?.sellerGrowth?.year === selectedYear
         ? sellerGrowthData
         : [];
-    
+
     return currentYearData.map((item) => ({
       month: item.month,
       vendors: item.cumulative || 0,
@@ -81,9 +87,17 @@ const SellerGrowth = () => {
         <div className="w-full h-[300px] bg-gray-100 rounded-lg flex items-center justify-center">
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-[#B5ED90] rounded-full animate-bounce"></div>
-            <div className="w-4 h-4 bg-[#FF62BD] rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-            <div className="w-4 h-4 bg-[#B5ED90] rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-            <span className="ml-2 text-gray-600">Loading seller growth data...</span>
+            <div
+              className="w-4 h-4 bg-[#FF62BD] rounded-full animate-bounce"
+              style={{ animationDelay: "0.1s" }}
+            ></div>
+            <div
+              className="w-4 h-4 bg-[#B5ED90] rounded-full animate-bounce"
+              style={{ animationDelay: "0.2s" }}
+            ></div>
+            <span className="ml-2 text-gray-600">
+              Loading seller growth data...
+            </span>
           </div>
         </div>
       </div>
@@ -170,6 +184,4 @@ const SellerGrowth = () => {
       </div>
     </>
   );
-};
-
-export default SellerGrowth;
+}
