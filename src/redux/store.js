@@ -25,7 +25,14 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore redux-persist actions
-        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+        ignoredActions: [
+          "persist/PERSIST", 
+          "persist/REHYDRATE",
+          "persist/REGISTER",
+          "persist/PURGE",
+          "persist/FLUSH",
+          "persist/PAUSE",
+        ],
       },
     }).concat(baseApi.middleware),
 });
