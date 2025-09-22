@@ -118,56 +118,43 @@ const CategoryManagement = () => {
         );
       },
     },
-    {
-      title: "Action",
-      key: "action",
-      render: () => {
-        return (
-          <div className="flex gap-2">
-            <button className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200">
-              <CiEdit onClick={showModal3} className="w-6 h-6 text-[#14803c]" />
-            </button>
-            <button
-              onClick={showModal}
-              className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
-            >
-              <RiDeleteBin6Line className="w-6 h-6 text-[#14803c]" />
-            </button>
-          </div>
-        );
-      },
-    },
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: () => {
+    //     return (
+    //       <div className="flex gap-2">
+    //         <button className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200">
+    //           <CiEdit onClick={showModal3} className="w-6 h-6 text-[#14803c]" />
+    //         </button>
+    //         <button
+    //           onClick={showModal}
+    //           className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
+    //         >
+    //           <RiDeleteBin6Line className="w-6 h-6 text-[#14803c]" />
+    //         </button>
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   return (
     <>
       <div className="my-5 md:my-10 flex flex-col md:flex-row gap-5 justify-between items-center">
         <PageHeading title="Category Management" />
-        <button
+        {/* <button
           onClick={showModal4}
           className="bg-[#FF62BD] text-white px-4 py-3 rounded-lg"
         >
           + Add Category
-        </button>
+        </button> */}
       </div>
       <ConfigProvider
         theme={{
           components: {
             InputNumber: {
               activeBorderColor: "#14803c",
-            },
-            Pagination: {
-              colorPrimaryBorder: "rgb(19,194,194)",
-              colorBorder: "rgb(82,196,26)",
-              colorTextPlaceholder: "rgb(82,196,26)",
-              colorTextDisabled: "rgb(82,196,26)",
-              colorBgTextActive: "rgb(82,196,26)",
-              itemActiveBgDisabled: "rgb(82,196,26)",
-              itemActiveColorDisabled: "rgb(0,0,0)",
-              itemBg: "rgb(82,196,26)",
-              colorBgTextHover: "rgb(82,196,26)",
-              colorPrimary: "rgb(82,196,26)",
-              colorPrimaryHover: "rgb(82,196,26)",
             },
             Table: {
               headerBg: "#14803c",
@@ -181,7 +168,7 @@ const CategoryManagement = () => {
         <Table
           dataSource={dataSource}
           columns={columns}
-          pagination={{ pageSize: 10 }}
+          pagination={false}
           scroll={{ x: "max-content" }}
         />
 
