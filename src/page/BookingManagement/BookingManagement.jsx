@@ -68,12 +68,11 @@ const BookingManagement = () => {
     {
       title: "Action",
       key: "action",
-      render: () => {
+      render: (_text, record) => {
         return (
           <div className="flex gap-2">
-            <Link to="/bookingTable">
+            <Link to={`/bookingTable/${record?.serviceId}`}>
               <button
-                // onClick={showModal}
                 className="border border-[#14803c] text-[#14803c] rounded-lg p-2 bg-[#d3e8e6] hover:bg-[#b4d9d4] transition duration-200"
               >
                 <IoEyeOutline className="w-6 h-6 text-[#14803c]" />

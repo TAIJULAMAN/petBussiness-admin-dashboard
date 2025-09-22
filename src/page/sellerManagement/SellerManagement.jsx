@@ -1,6 +1,18 @@
-import { ConfigProvider, Modal, Table, message, Descriptions, Tag, Avatar } from "antd";
+import {
+  ConfigProvider,
+  Modal,
+  Table,
+  message,
+  Descriptions,
+  Tag,
+  Avatar,
+} from "antd";
 import { MdBlockFlipped, MdBlock } from "react-icons/md";
-import { IoChatbubbleEllipsesOutline, IoSearch, IoEyeOutline } from "react-icons/io5";
+import {
+  IoChatbubbleEllipsesOutline,
+  IoSearch,
+  IoEyeOutline,
+} from "react-icons/io5";
 import { BsPatchCheckFill } from "react-icons/bs";
 import PageHeading from "../../shared/PageHeading";
 import { useState } from "react";
@@ -15,13 +27,18 @@ const SellerManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [actionType, setActionType] = useState(''); // 'block' or 'unblock'
+  const [actionType, setActionType] = useState(""); // 'block' or 'unblock'
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   // API hooks
-  const { data: businessOwnersData, isLoading, error, refetch } = useGetAllBusinessOwnersQuery({
+  const {
+    data: businessOwnersData,
+    isLoading,
+    error,
+    refetch,
+  } = useGetAllBusinessOwnersQuery({
     page: currentPage,
     limit: pageSize,
     search: searchTerm || undefined,
@@ -29,37 +46,45 @@ const SellerManagement = () => {
 
   // Show error message if API call fails
   if (error) {
-    message.error(`Failed to load business owners: ${error.message || 'Unknown error'}`);
+    message.error(
+      `Failed to load business owners: ${error.message || "Unknown error"}`
+    );
   }
 
-  const [blockBusinessOwner, { isLoading: isBlocking }] = useBlockBusinessOwnerMutation();
-  const [unblockBusinessOwner, { isLoading: isUnblocking }] = useUnblockBusinessOwnerMutation();
+  const [blockBusinessOwner, { isLoading: isBlocking }] =
+    useBlockBusinessOwnerMutation();
+  const [unblockBusinessOwner, { isLoading: isUnblocking }] =
+    useUnblockBusinessOwnerMutation();
 
   const handleOk = async () => {
     if (!selectedUser) return;
 
     try {
-      if (actionType === 'block') {
+      if (actionType === "block") {
         await blockBusinessOwner(selectedUser._id).unwrap();
-        message.success('Business owner blocked successfully!');
-      } else if (actionType === 'unblock') {
+        message.success("Business owner blocked successfully!");
+      } else if (actionType === "unblock") {
         await unblockBusinessOwner(selectedUser._id).unwrap();
-        message.success('Business owner unblocked successfully!');
+        message.success("Business owner unblocked successfully!");
       }
       refetch();
     } catch (error) {
-      message.error(`Failed to ${actionType} business owner: ${error.message || 'Unknown error'}`);
+      message.error(
+        `Failed to ${actionType} business owner: ${
+          error.message || "Unknown error"
+        }`
+      );
     } finally {
       setIsModalOpen(false);
       setSelectedUser(null);
-      setActionType('');
+      setActionType("");
     }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setSelectedUser(null);
-    setActionType('');
+    setActionType("");
   };
 
   const showModal = (user, action) => {
@@ -88,12 +113,13 @@ const SellerManagement = () => {
     setPageSize(pagination.pageSize);
   };
   // Process API data for table
-  const dataSource = businessOwnersData?.owners?.map((owner, index) => ({
-    key: owner._id,
-    no: (currentPage - 1) * pageSize + index + 1,
-    ...owner,
-  })) || [];
-  console.log("dataSource of sellerManagement",dataSource);
+  const dataSource =
+    businessOwnersData?.owners?.map((owner, index) => ({
+      key: owner._id,
+      no: (currentPage - 1) * pageSize + index + 1,
+      ...owner,
+    })) || [];
+  console.log("dataSource of sellerManagement", dataSource);
 
   const columns = [
     { title: "No", dataIndex: "no", key: "no" },
@@ -103,7 +129,10 @@ const SellerManagement = () => {
       render: (_, record) => (
         <div className="flex items-center gap-3">
           <img
-            src={record?.profileImage || `https://avatar.iran.liara.run/public/${record?.no}`}
+            src={
+              record?.profileImage ||
+              `https://avatar.iran.liara.run/public/${record?.no}`
+            }
             className="w-10 h-10 object-cover rounded-full"
             alt="User Avatar"
           />
@@ -117,8 +146,8 @@ const SellerManagement = () => {
       title: "Verified",
       key: "isVerified",
       render: (_, record) => (
-        <Tag color={record?.isVerified ? 'green' : 'red'}>
-          {record?.isVerified ? 'Verified' : 'Not Verified'}
+        <Tag color={record?.isVerified ? "green" : "red"}>
+          {record?.isVerified ? "Verified" : "Not Verified"}
         </Tag>
       ),
     },
@@ -126,17 +155,18 @@ const SellerManagement = () => {
       title: "Status",
       key: "status",
       render: (_, record) => (
-        <Tag color={record?.isBlocked ? 'red' : 'green'}>
-          {record?.isBlocked ? 'Blocked' : 'Active'}
+        <Tag color={record?.isBlocked ? "red" : "green"}>
+          {record?.isBlocked ? "Blocked" : "Active"}
         </Tag>
       ),
     },
-    { 
-      title: "Registration Date", 
+    {
+      title: "Registration Date",
       key: "createdAt",
-      render: (_, record) => (
-        record?.createdAt ? new Date(record.createdAt).toLocaleDateString() : 'N/A'
-      ),
+      render: (_, record) =>
+        record?.createdAt
+          ? new Date(record.createdAt).toLocaleDateString()
+          : "N/A",
     },
     {
       title: "Action",
@@ -144,22 +174,16 @@ const SellerManagement = () => {
       render: (_, record) => {
         return (
           <div className="flex gap-2">
-            <button 
+            <button
               onClick={() => showDetailsModal(record)}
               className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200"
               title="View Details"
             >
               <IoEyeOutline className="w-6 h-6 text-[#14803c]" />
             </button>
-            <button 
-              className="border border-[#14803c] rounded-lg p-2 bg-[#d3e8e6] text-[#14803c] hover:bg-[#b4d9d4] transition duration-200"
-              title="Verify Business"
-            >
-              <BsPatchCheckFill className="w-6 h-6 text-[#14803c]" />
-            </button>
             {record?.isBlocked ? (
               <button
-                onClick={() => showModal(record, 'unblock')}
+                onClick={() => showModal(record, "unblock")}
                 className="border border-green-600 text-green-600 rounded-lg p-2 bg-green-100 hover:bg-green-200 transition duration-200"
                 title="Unblock Business Owner"
                 disabled={isUnblocking}
@@ -168,7 +192,7 @@ const SellerManagement = () => {
               </button>
             ) : (
               <button
-                onClick={() => showModal(record, 'block')}
+                onClick={() => showModal(record, "block")}
                 className="border border-red-600 text-red-600 rounded-lg p-2 bg-red-100 hover:bg-red-200 transition duration-200"
                 title="Block Business Owner"
                 disabled={isBlocking}
@@ -257,7 +281,11 @@ const SellerManagement = () => {
                 disabled={isBlocking || isUnblocking}
                 className="bg-[#14803c] text-white font-semibold w-full py-2 rounded transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isBlocking || isUnblocking ? 'Processing...' : `Yes, ${actionType?.charAt(0).toUpperCase() + actionType?.slice(1)}`}
+                {isBlocking || isUnblocking
+                  ? "Processing..."
+                  : `Yes, ${
+                      actionType?.charAt(0).toUpperCase() + actionType?.slice(1)
+                    }`}
               </button>
             </div>
             <div className="text-center pb-3">
@@ -280,20 +308,23 @@ const SellerManagement = () => {
           width={800}
           title={
             <div className="flex items-center gap-3 pb-4">
-              <Avatar 
-                size={64} 
-                src={selectedUser?.profileImage || `https://avatar.iran.liara.run/public/${selectedUser?.no}`}
+              <Avatar
+                size={64}
+                src={
+                  selectedUser?.profileImage ||
+                  `https://avatar.iran.liara.run/public/${selectedUser?.no}`
+                }
               />
               <div>
                 <h2 className="text-xl font-semibold text-[#0D0D0D]">
                   {selectedUser?.name}
                 </h2>
                 <div className="flex gap-2">
-                  <Tag color={selectedUser?.isBlocked ? 'red' : 'green'}>
-                    {selectedUser?.isBlocked ? 'Blocked' : 'Active'}
+                  <Tag color={selectedUser?.isBlocked ? "red" : "green"}>
+                    {selectedUser?.isBlocked ? "Blocked" : "Active"}
                   </Tag>
-                  <Tag color={selectedUser?.isVerified ? 'green' : 'red'}>
-                    {selectedUser?.isVerified ? 'Verified' : 'Not Verified'}
+                  <Tag color={selectedUser?.isVerified ? "green" : "red"}>
+                    {selectedUser?.isVerified ? "Verified" : "Not Verified"}
                   </Tag>
                 </div>
               </div>
@@ -301,39 +332,43 @@ const SellerManagement = () => {
           }
         >
           <div className="p-4">
-            <Descriptions 
-              bordered 
+            <Descriptions
+              bordered
               column={1}
               size="middle"
-              labelStyle={{ fontWeight: 'bold', backgroundColor: '#f5f5f5' }}
+              labelStyle={{ fontWeight: "bold", backgroundColor: "#f5f5f5" }}
             >
               <Descriptions.Item label="Full Name">
-                {selectedUser?.name || 'N/A'}
+                {selectedUser?.name || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Email">
-                {selectedUser?.email || 'N/A'}
+                {selectedUser?.email || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Phone Number">
-                {selectedUser?.phone || 'N/A'}
+                {selectedUser?.phone || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Role">
-                {selectedUser?.role || 'N/A'}
+                {selectedUser?.role || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Verification Status">
-                <Tag color={selectedUser?.isVerified ? 'green' : 'red'}>
-                  {selectedUser?.isVerified ? 'Verified' : 'Not Verified'}
+                <Tag color={selectedUser?.isVerified ? "green" : "red"}>
+                  {selectedUser?.isVerified ? "Verified" : "Not Verified"}
                 </Tag>
               </Descriptions.Item>
               <Descriptions.Item label="Account Status">
-                <Tag color={selectedUser?.isBlocked ? 'red' : 'green'}>
-                  {selectedUser?.isBlocked ? 'Blocked' : 'Active'}
+                <Tag color={selectedUser?.isBlocked ? "red" : "green"}>
+                  {selectedUser?.isBlocked ? "Blocked" : "Active"}
                 </Tag>
               </Descriptions.Item>
               <Descriptions.Item label="Registration Date">
-                {selectedUser?.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}
+                {selectedUser?.createdAt
+                  ? new Date(selectedUser.createdAt).toLocaleDateString()
+                  : "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Last Updated">
-                {selectedUser?.updatedAt ? new Date(selectedUser.updatedAt).toLocaleDateString() : 'N/A'}
+                {selectedUser?.updatedAt
+                  ? new Date(selectedUser.updatedAt).toLocaleDateString()
+                  : "N/A"}
               </Descriptions.Item>
               {selectedUser?.bookings && (
                 <Descriptions.Item label="Total Bookings">
