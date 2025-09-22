@@ -18,11 +18,10 @@ const Users = () => {
   const [pageSize, setPageSize] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // API hooks
-  const { data: petOwnersData, isLoading, error, refetch } = useGetAllPetOwnersQuery({
+  // API hooks (no server-side search)
+  const { data: petOwnersData, isLoading, refetch } = useGetAllPetOwnersQuery({
     page: currentPage,
     limit: pageSize,
-    search: searchTerm || undefined,
   });
   console.log("petOwnersData",petOwnersData);
 
@@ -82,12 +81,27 @@ const Users = () => {
     setCurrentPage(pagination.current);
     setPageSize(pagination.pageSize);
   };
-  // Process API data for table
-  const dataSource = petOwnersData?.users?.map((user, index) => ({
+  // Process API data for table with client-side search filter
+  const users = petOwnersData?.users || [];
+  const normalizedQuery = (searchTerm || '').toLowerCase();
+  const filteredUsers = normalizedQuery
+    ? users.filter((u) => {
+        const name = (u?.name || u?.userName || '').toLowerCase();
+        const email = (u?.email || '').toLowerCase();
+        const phone = (u?.phone || '').toLowerCase();
+        return (
+          name.includes(normalizedQuery) ||
+          email.includes(normalizedQuery) ||
+          phone.includes(normalizedQuery)
+        );
+      })
+    : users;
+
+  const dataSource = filteredUsers.map((user, index) => ({
     key: user._id,
     no: (currentPage - 1) * pageSize + index + 1,
     ...user,
-  })) || [];  
+  }));  
 
   const columns = [
     { title: "No", dataIndex: "no", key: "no" },
@@ -208,7 +222,7 @@ const Users = () => {
           pagination={{
             current: currentPage,
             pageSize: pageSize,
-            total: petOwnersData?.total || 0, // ✅ use total
+            total: filteredUsers.length, // reflect client-side filtering
           }}
           
           onChange={handleTableChange}

@@ -20,6 +20,7 @@ export const baseApi = createApi({
     "auth",
     "profile",
     "dashboard",
+    "businessOwner",
     "privacy",
     "termsAndConditions",
     "support",

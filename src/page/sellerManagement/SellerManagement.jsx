@@ -8,15 +8,9 @@ import {
   Avatar,
 } from "antd";
 import { MdBlockFlipped, MdBlock } from "react-icons/md";
-import {
-  IoChatbubbleEllipsesOutline,
-  IoSearch,
-  IoEyeOutline,
-} from "react-icons/io5";
-import { BsPatchCheckFill } from "react-icons/bs";
+import { IoSearch, IoEyeOutline } from "react-icons/io5";
 import PageHeading from "../../shared/PageHeading";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   useGetAllBusinessOwnersQuery,
   useBlockBusinessOwnerMutation,
@@ -39,10 +33,11 @@ const SellerManagement = () => {
     error,
     refetch,
   } = useGetAllBusinessOwnersQuery({
-    page: currentPage,
-    limit: pageSize,
-    search: searchTerm || undefined,
+    pageSize,
+    currentPage,
   });
+
+  console.log("businessOwnersData", businessOwnersData);
 
   // Show error message if API call fails
   if (error) {
@@ -103,22 +98,37 @@ const SellerManagement = () => {
     setSelectedUser(null);
   };
 
+  // Search handler
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1);
   };
 
   const handleTableChange = (pagination) => {
     setCurrentPage(pagination.current);
     setPageSize(pagination.pageSize);
   };
-  // Process API data for table
-  const dataSource =
-    businessOwnersData?.owners?.map((owner, index) => ({
-      key: owner._id,
-      no: (currentPage - 1) * pageSize + index + 1,
-      ...owner,
-    })) || [];
+  // Process API data for table with client-side search filter
+  const owners = businessOwnersData?.owners || [];
+  const normalizedQuery = (searchTerm || "").toLowerCase();
+  const filteredOwners = normalizedQuery
+    ? owners.filter((o) => {
+        const name = (o?.name || "").toLowerCase();
+        const email = (o?.email || "").toLowerCase();
+        const phone = (o?.phone || "").toLowerCase();
+        return (
+          name.includes(normalizedQuery) ||
+          email.includes(normalizedQuery) ||
+          phone.includes(normalizedQuery)
+        );
+      })
+    : owners;
+
+  const dataSource = filteredOwners.map((owner, index) => ({
+    key: owner._id,
+    no: (currentPage - 1) * pageSize + index + 1,
+    ...owner,
+  }));
   console.log("dataSource of sellerManagement", dataSource);
 
   const columns = [
@@ -258,7 +268,7 @@ const SellerManagement = () => {
           pagination={{
             current: currentPage,
             pageSize: pageSize,
-            total: businessOwnersData?.total || 0,
+            total: businessOwnersData?.total,
           }}
           onChange={handleTableChange}
           scroll={{ x: "max-content" }}
