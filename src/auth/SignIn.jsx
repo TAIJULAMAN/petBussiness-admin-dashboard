@@ -1,8 +1,6 @@
-import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "antd/dist/reset.css";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import BrandLogo from "../shared/BrandLogo";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogInMutation } from "../redux/api/authApi";
 import { useDispatch } from "react-redux";
@@ -21,6 +19,21 @@ export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // Load saved credentials if 'Remember me' was previously selected
+  useEffect(() => {
+    try {
+      const savedRemember = localStorage.getItem("rememberMe") === "true";
+      const savedEmail = localStorage.getItem("rememberEmail") || "";
+      const savedPassword = localStorage.getItem("rememberPassword") || "";
+      if (savedRemember) {
+        setIsChecked(true);
+        setFormData({ email: savedEmail, password: savedPassword });
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -29,7 +42,17 @@ export default function SignIn() {
     }));
   };
   const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
+    const checked = event.target.checked;
+    setIsChecked(checked);
+    if (!checked) {
+      try {
+        localStorage.removeItem("rememberMe");
+        localStorage.removeItem("rememberEmail");
+        localStorage.removeItem("rememberPassword");
+      } catch {
+        // ignore storage errors
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -48,6 +71,21 @@ export default function SignIn() {
             refreshToken: response?.refreshToken,
           })
         );
+
+        // Persist credentials based on 'Remember me'
+        try {
+          if (isChecked) {
+            localStorage.setItem("rememberMe", "true");
+            localStorage.setItem("rememberEmail", formData.email);
+            localStorage.setItem("rememberPassword", formData.password);
+          } else {
+            localStorage.removeItem("rememberMe");
+            localStorage.removeItem("rememberEmail");
+            localStorage.removeItem("rememberPassword");
+          }
+        } catch {
+          // ignore storage errors
+        }
 
         // Show success toast
         Swal.fire({
@@ -209,12 +247,7 @@ export default function SignIn() {
 
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-            <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
-              <Link to="/register" className="text-[#B5ED90] hover:text-[#A5DD80] font-medium transition-colors">
-                Sign up here
-              </Link>
-            </p>
+          
           </div>
         </div>
       </div>
