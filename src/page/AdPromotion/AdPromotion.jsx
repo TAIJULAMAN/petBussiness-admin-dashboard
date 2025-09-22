@@ -202,6 +202,7 @@ function AdCard({ ad, onChanged }) {
             )}
           </div>
         </div>
+        
 
         <img
           src={getImageUrl((ad?.advertisementImg?.[0] || "").replace(/\\/g, "/"))}
