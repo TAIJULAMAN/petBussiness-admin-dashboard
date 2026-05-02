@@ -8,8 +8,8 @@ import { IoIosLogIn } from "react-icons/io";
 import { AdminItems } from "./SideBar";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/Slice/authSlice";
-
-
+import { useGetAdminProfileQuery } from "../../redux/api/profileApi";
+import { useGetAllNotificationQuery } from "../../redux/api/notificationApi";
 
 const Header = ({ onToggleSidebar }) => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
@@ -18,24 +18,25 @@ const Header = ({ onToggleSidebar }) => {
   const contentRef = useRef({});
   const [open, setOpen] = useState(false);
   const [placement] = useState("left");
+
   const dispatch = useDispatch();
-  
-  // Get user data from Redux store
   const { user } = useSelector((state) => state.auth);
+  const { data: profileRes } = useGetAdminProfileQuery();
+  const adminProfile = profileRes?.data?.admin || profileRes?.admin || user;
+
+  const { data: notificationData } = useGetAllNotificationQuery();
+  const unreadCount = (notificationData?.data || []).filter(
+    (n) => !n.isRead,
+  ).length;
 
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
-      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key],
     );
   };
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
   const onClose = () => {
     setOpen(false);
   };
-
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
@@ -45,8 +46,8 @@ const Header = ({ onToggleSidebar }) => {
     <div className="bg-[#B5ED90] text-white px-5 py-4">
       <div className="flex justify-between items-center">
         <div className="lg:hidden">
-          <button 
-            onClick={onToggleSidebar} 
+          <button
+            onClick={onToggleSidebar}
             className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <FaBars size={24} />
@@ -68,10 +69,11 @@ const Header = ({ onToggleSidebar }) => {
                 <div key={item.key}>
                   <Link
                     to={item?.link}
-                    className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${selectedKey === item?.key
+                    className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
+                      selectedKey === item?.key
                         ? "bg-[#0B704E] text-white rounded-md"
                         : "bg-white rounded-md"
-                      }`}
+                    }`}
                     onClick={(e) => {
                       if (item.children) {
                         e.preventDefault();
@@ -88,16 +90,18 @@ const Header = ({ onToggleSidebar }) => {
                     </span>
                     {item?.children && (
                       <FaChevronRight
-                        className={`ml-auto transform transition-all duration-300 ${expandedKeys.includes(item?.key) ? "rotate-90" : ""
-                          }`}
+                        className={`ml-auto transform transition-all duration-300 ${
+                          expandedKeys.includes(item?.key) ? "rotate-90" : ""
+                        }`}
                       />
                     )}
                   </Link>
 
                   {item.children && (
                     <div
-                      className={`children-menu bg-white -my-2 mx-5 text-black transition-all duration-300 ${expandedKeys.includes(item?.key) ? "expanded" : ""
-                        }`}
+                      className={`children-menu bg-white -my-2 mx-5 text-black transition-all duration-300 ${
+                        expandedKeys.includes(item?.key) ? "expanded" : ""
+                      }`}
                       style={{
                         maxHeight: expandedKeys.includes(item.key)
                           ? `${contentRef.current[item?.key]?.scrollHeight}px`
@@ -109,10 +113,11 @@ const Header = ({ onToggleSidebar }) => {
                         <Link
                           key={child?.key}
                           to={child?.link}
-                          className={`menu-item p-4 flex items-center cursor-pointer ${selectedKey === child?.key
+                          className={`menu-item p-4 flex items-center cursor-pointer ${
+                            selectedKey === child?.key
                               ? "bg-[#0B704E] text-white"
                               : "hover:bg-[#B3D3C8]"
-                            }`}
+                          }`}
                           onClick={() => {
                             setSelectedKey(child?.key);
                             setExpandedKeys([]);
@@ -147,22 +152,29 @@ const Header = ({ onToggleSidebar }) => {
             <Link to={"/dashboard/Settings/notification"}>
               <LuBell className="text-2xl text-[#FF62BD] w-[40px] h-[40px]" />
             </Link>
-            <span className="absolute -top-2 -right-2 bg-[#FF62BD] text-xs rounded-full w-6 h-6 flex items-center justify-center">
-              10
-            </span>
+            {unreadCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#FF62BD] text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-semibold">
+                {unreadCount > 99 ? "99+" : unreadCount}
+              </span>
+            )}
           </div>
           <div className="pl-5 border-gray-600">
             <Link to={"/dashboard/Settings/profile"}>
               <div className="flex items-center gap-3">
                 <img
-                  src="https://avatar.iran.liara.run/public/44"
+                  src={
+                    adminProfile?.profilePic ||
+                    "https://avatar.iran.liara.run/public/44"
+                  }
                   className="w-[40px] h-[40px] object-cover rounded-full border-2 border-[#FF62BD]"
                   alt="User Avatar"
                 />
                 <div className="hidden md:flex flex-col items-start">
-                  <h3 className="text-gray-800 text-sm">{user?.name || "User"}</h3>
+                  <h3 className="text-gray-800 text-sm">
+                    {adminProfile?.name || "User"}
+                  </h3>
                   <p className="text-xs px-2 py-1 bg-[#ebfcf4] text-[#FF62BD] rounded">
-                    {user?.role?.replace('_', ' ') || "Admin"}
+                    {adminProfile?.role?.replace("_", " ") || "Admin"}
                   </p>
                 </div>
               </div>

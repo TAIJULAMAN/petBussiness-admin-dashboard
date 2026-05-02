@@ -20,76 +20,34 @@ import Users from "../page/UserManagement/Users";
 import SignIn from "../auth/SignIn";
 import BookingManagement from "../page/BookingManagement/BookingManagement";
 import BookingTable from "../page/BookingManagement/BookingTable";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardLayout />,
+    element: <PrivateRoute />,
     children: [
       {
         path: "/",
-        element: <Dashboard />,
-      },
-      {
-        path: "/dashboard/user-management",
-        element: <Users />,
-      },
-      {
-        path: "/dashboard/seller-management",
-        element: <SellerManagement />,
-      },
-
-      {
-        path: "/dashboard/subscription",
-        element: <Subscription />,
-      },
-      {
-        path: "/booking-management",
-        element: <BookingManagement />,
-      },
-      {
-        path: "/bookingTable/:serviceId",
-        element: <BookingTable />,
-      },
-      {
-        path: "/dashboard/update-subscription",
-        element: <UpdateSubscription />,
-      },
-      {
-        path: "/premium-subscribers",
-        element: <PremiumSubscribers />,
-      },
-      {
-        path: "/ads-promotion",
-        element: <AdPromotion />,
-      },
-      {
-        path: "/dashboard/Settings/profile",
-        element: <Profile />,
-      },
-      {
-        path: "/dashboard/Settings/notification",
-        element: <Notification />,
-      },
-      {
-        path: "/dashboard/Settings/Terms&Condition",
-        element: <TermsCondition />,
-      },
-      {
-        path: "/dashboard/Settings/PrivacyPolicy",
-        element: <PrivacyPolicy />,
-      },
-      {
-        path: "/faq",
-        element: <Faq />,
-      },
-      {
-        path: "/support",
-        element: <Support />,
-      },
-      {
-        path: "/category-management",
-        element: <CategoryManagement />,
+        element: <DashboardLayout />,
+        children: [
+          { path: "/", element: <Dashboard /> },
+          { path: "/dashboard/user-management", element: <Users /> },
+          { path: "/dashboard/seller-management", element: <SellerManagement /> },
+          { path: "/dashboard/subscription", element: <Subscription /> },
+          { path: "/booking-management", element: <BookingManagement /> },
+          { path: "/bookingTable/:serviceId", element: <BookingTable /> },
+          { path: "/dashboard/update-subscription", element: <UpdateSubscription /> },
+          { path: "/premium-subscribers", element: <PremiumSubscribers /> },
+          { path: "/ads-promotion", element: <AdPromotion /> },
+          { path: "/dashboard/Settings/profile", element: <Profile /> },
+          { path: "/dashboard/Settings/notification", element: <Notification /> },
+          { path: "/dashboard/Settings/Terms&Condition", element: <TermsCondition /> },
+          { path: "/dashboard/Settings/PrivacyPolicy", element: <PrivacyPolicy /> },
+          { path: "/faq", element: <Faq /> },
+          { path: "/support", element: <Support /> },
+          { path: "/category-management", element: <CategoryManagement /> },
+        ],
       },
     ],
   },

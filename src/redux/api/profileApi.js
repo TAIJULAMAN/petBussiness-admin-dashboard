@@ -16,8 +16,8 @@ const profileApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["profile"],
-      keepUnusedDataFor: 0,
-      refetchOnMountOrArgChange: true,
+      // keepUnusedDataFor: 0,
+      // refetchOnMountOrArgChange: true,
     }),
     updateProfile: builder.mutation({
       query: (formData) => ({
@@ -27,7 +27,6 @@ const profileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["profile"],
     }),
-
     changeAdminPassword: builder.mutation({
       query: (data) => ({
         url: "admin/change-password",

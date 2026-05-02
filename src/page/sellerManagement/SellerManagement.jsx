@@ -21,7 +21,7 @@ const SellerManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [actionType, setActionType] = useState(""); // 'block' or 'unblock'
+  const [actionType, setActionType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,8 +33,8 @@ const SellerManagement = () => {
     error,
     refetch,
   } = useGetAllBusinessOwnersQuery({
-    pageSize,
-    currentPage,
+    limit: pageSize,
+    page: currentPage,
   });
 
   console.log("businessOwnersData", businessOwnersData);
@@ -42,7 +42,7 @@ const SellerManagement = () => {
   // Show error message if API call fails
   if (error) {
     message.error(
-      `Failed to load business owners: ${error.message || "Unknown error"}`
+      `Failed to load business owners: ${error.message || "Unknown error"}`,
     );
   }
 
@@ -67,7 +67,7 @@ const SellerManagement = () => {
       message.error(
         `Failed to ${actionType} business owner: ${
           error.message || "Unknown error"
-        }`
+        }`,
       );
     } finally {
       setIsModalOpen(false);
@@ -124,12 +124,15 @@ const SellerManagement = () => {
       })
     : owners;
 
+  const apiTotal = businessOwnersData?.data?.meta?.total || businessOwnersData?.meta?.total || businessOwnersData?.total;
+  const isServerPaginated = apiTotal !== undefined && apiTotal > owners.length;
+
   const dataSource = filteredOwners.map((owner, index) => ({
     key: owner._id,
-    no: (currentPage - 1) * pageSize + index + 1,
+    no: isServerPaginated ? (currentPage - 1) * pageSize + index + 1 : index + 1,
     ...owner,
   }));
-  console.log("dataSource of sellerManagement", dataSource);
+  console.log("dataSource of userManagement", dataSource);
 
   const columns = [
     { title: "No", dataIndex: "no", key: "no" },
@@ -140,7 +143,7 @@ const SellerManagement = () => {
         <div className="flex items-center gap-3">
           <img
             src={
-              record?.profileImage ||
+              record?.profilePic ||
               `https://avatar.iran.liara.run/public/${record?.no}`
             }
             className="w-10 h-10 object-cover rounded-full"
@@ -268,7 +271,7 @@ const SellerManagement = () => {
           pagination={{
             current: currentPage,
             pageSize: pageSize,
-            total: businessOwnersData?.total,
+            total: apiTotal || filteredOwners.length,
           }}
           onChange={handleTableChange}
           scroll={{ x: "max-content" }}

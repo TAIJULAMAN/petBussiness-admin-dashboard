@@ -2,7 +2,15 @@ import { useState } from "react";
 import { IoEyeOutline, IoSearch } from "react-icons/io5";
 import { MdBlockFlipped, MdBlock } from "react-icons/md";
 import PageHeading from "../../shared/PageHeading";
-import { ConfigProvider, Modal, Table, message, Descriptions, Tag, Avatar } from "antd";
+import {
+  ConfigProvider,
+  Modal,
+  Table,
+  message,
+  Descriptions,
+  Tag,
+  Avatar,
+} from "antd";
 import {
   useGetAllPetOwnersQuery,
   useBlockPetOwnerMutation,
@@ -13,47 +21,52 @@ const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [actionType, setActionType] = useState(''); // 'block' or 'unblock'
+  const [actionType, setActionType] = useState(""); // 'block' or 'unblock'
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   // API hooks (no server-side search)
-  const { data: petOwnersData, isLoading, refetch } = useGetAllPetOwnersQuery({
+  const {
+    data: petOwnersData,
+    isLoading,
+    refetch,
+  } = useGetAllPetOwnersQuery({
     page: currentPage,
     limit: pageSize,
   });
-  console.log("petOwnersData",petOwnersData);
-
+  console.log("petOwnersData", petOwnersData);
 
   const [blockPetOwner, { isLoading: isBlocking }] = useBlockPetOwnerMutation();
-  const [unblockPetOwner, { isLoading: isUnblocking }] = useUnblockPetOwnerMutation();
-
+  const [unblockPetOwner, { isLoading: isUnblocking }] =
+    useUnblockPetOwnerMutation();
   const handleOk = async () => {
     if (!selectedUser) return;
 
     try {
-      if (actionType === 'block') {
+      if (actionType === "block") {
         await blockPetOwner({ id: selectedUser._id, body: {} }).unwrap();
-        message.success('Pet owner blocked successfully!');
-      } else if (actionType === 'unblock') {
-        await unblockPetOwner({id: selectedUser._id, body: {}}).unwrap();
-        message.success('Pet owner unblocked successfully!');
+        message.success("Pet owner blocked successfully!");
+      } else if (actionType === "unblock") {
+        await unblockPetOwner({ id: selectedUser._id, body: {} }).unwrap();
+        message.success("Pet owner unblocked successfully!");
       }
       refetch();
     } catch (error) {
-      message.error(`Failed to ${actionType} pet owner: ${error.message || 'Unknown error'}`);
+      message.error(
+        `Failed to ${actionType} pet owner: ${error.message || "Unknown error"}`,
+      );
     } finally {
       setIsModalOpen(false);
       setSelectedUser(null);
-      setActionType('');
+      setActionType("");
     }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setSelectedUser(null);
-    setActionType('');
+    setActionType("");
   };
 
   const showModal = (user, action) => {
@@ -83,12 +96,12 @@ const Users = () => {
   };
   // Process API data for table with client-side search filter
   const users = petOwnersData?.users || [];
-  const normalizedQuery = (searchTerm || '').toLowerCase();
+  const normalizedQuery = (searchTerm || "").toLowerCase();
   const filteredUsers = normalizedQuery
     ? users.filter((u) => {
-        const name = (u?.name || u?.userName || '').toLowerCase();
-        const email = (u?.email || '').toLowerCase();
-        const phone = (u?.phone || '').toLowerCase();
+        const name = (u?.name || u?.userName || "").toLowerCase();
+        const email = (u?.email || "").toLowerCase();
+        const phone = (u?.phone || "").toLowerCase();
         return (
           name.includes(normalizedQuery) ||
           email.includes(normalizedQuery) ||
@@ -97,11 +110,19 @@ const Users = () => {
       })
     : users;
 
+  const apiTotal =
+    petOwnersData?.data?.meta?.total ||
+    petOwnersData?.meta?.total ||
+    petOwnersData?.total;
+  const isServerPaginated = apiTotal !== undefined && apiTotal > users.length;
+
   const dataSource = filteredUsers.map((user, index) => ({
     key: user._id,
-    no: (currentPage - 1) * pageSize + index + 1,
+    no: isServerPaginated
+      ? (currentPage - 1) * pageSize + index + 1
+      : index + 1,
     ...user,
-  }));  
+  }));
 
   const columns = [
     { title: "No", dataIndex: "no", key: "no" },
@@ -111,7 +132,10 @@ const Users = () => {
       render: (_, record) => (
         <div className="flex items-center gap-3">
           <img
-            src={record?.profileImage || `https://avatar.iran.liara.run/public/${record?.no}`}
+            src={
+              record?.profilePic ||
+              `https://avatar.iran.liara.run/public/${record?.no}`
+            }
             className="w-10 h-10 object-cover rounded-full"
             alt="User Avatar"
           />
@@ -125,12 +149,14 @@ const Users = () => {
       title: "Status",
       key: "status",
       render: (_, record) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          record?.isBlocked 
-            ? 'bg-red-100 text-red-800' 
-            : 'bg-green-100 text-green-800'
-        }`}>
-          {record?.isBlocked ? 'Blocked' : 'Active'}
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${
+            record?.isBlocked
+              ? "bg-red-100 text-red-800"
+              : "bg-green-100 text-green-800"
+          }`}
+        >
+          {record?.isBlocked ? "Blocked" : "Active"}
         </span>
       ),
     },
@@ -148,7 +174,7 @@ const Users = () => {
           </button>
           {record?.isBlocked ? (
             <button
-              onClick={() => showModal(record, 'unblock')}
+              onClick={() => showModal(record, "unblock")}
               className="border border-red-600 text-red-600 rounded-lg p-2"
               title="Unblock User"
               disabled={isUnblocking}
@@ -157,7 +183,7 @@ const Users = () => {
             </button>
           ) : (
             <button
-              onClick={() => showModal(record, 'block')}
+              onClick={() => showModal(record, "block")}
               className="border border-green-600 text-green-600 rounded-lg p-2"
               title="Block User"
               disabled={isBlocking}
@@ -222,9 +248,8 @@ const Users = () => {
           pagination={{
             current: currentPage,
             pageSize: pageSize,
-            total: filteredUsers.length, // reflect client-side filtering
+            total: apiTotal || filteredUsers.length,
           }}
-          
           onChange={handleTableChange}
           scroll={{ x: "max-content" }}
         />
@@ -237,7 +262,8 @@ const Users = () => {
         >
           <div className="p-5">
             <h1 className="text-2xl text-center text-[#0D0D0D] mb-4">
-              Are you sure you want to {actionType} {selectedUser?.name || selectedUser?.userName}?
+              Are you sure you want to {actionType}{" "}
+              {selectedUser?.name || selectedUser?.userName}?
             </h1>
 
             <div className="text-center py-3">
@@ -246,7 +272,9 @@ const Users = () => {
                 disabled={isBlocking || isUnblocking}
                 className="bg-[#14803c] text-white font-semibold w-full py-2 rounded transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isBlocking || isUnblocking ? 'Processing...' : `Yes, ${actionType.charAt(0).toUpperCase() + actionType.slice(1)}`}
+                {isBlocking || isUnblocking
+                  ? "Processing..."
+                  : `Yes, ${actionType.charAt(0).toUpperCase() + actionType.slice(1)}`}
               </button>
             </div>
             <div className="text-center pb-3">
@@ -269,58 +297,67 @@ const Users = () => {
           width={800}
           title={
             <div className="flex items-center gap-3 pb-4">
-              <Avatar 
-                size={64} 
-                src={selectedUser?.profileImage || `https://avatar.iran.liara.run/public/${selectedUser?.no}`}
+              <Avatar
+                size={64}
+                src={
+                  selectedUser?.profileImage ||
+                  `https://avatar.iran.liara.run/public/${selectedUser?.no}`
+                }
               />
               <div>
                 <h2 className="text-xl font-semibold text-[#0D0D0D]">
                   {selectedUser?.name || selectedUser?.userName}
                 </h2>
-                <Tag color={selectedUser?.isBlocked ? 'red' : 'green'}>
-                  {selectedUser?.isBlocked ? 'Blocked' : 'Active'}
+                <Tag color={selectedUser?.isBlocked ? "red" : "green"}>
+                  {selectedUser?.isBlocked ? "Blocked" : "Active"}
                 </Tag>
               </div>
             </div>
           }
         >
           <div className="p-4">
-            <Descriptions 
-              bordered 
+            <Descriptions
+              bordered
               column={1}
               size="middle"
-              labelStyle={{ fontWeight: 'bold', backgroundColor: '#f5f5f5' }}
+              labelStyle={{ fontWeight: "bold", backgroundColor: "#f5f5f5" }}
             >
               <Descriptions.Item label="Full Name">
-                {selectedUser?.name || selectedUser?.userName || 'N/A'}
+                {selectedUser?.name || selectedUser?.userName || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Email">
-                {selectedUser?.email || 'N/A'}
+                {selectedUser?.email || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Phone Number">
-                {selectedUser?.phone || 'N/A'}
+                {selectedUser?.phone || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Role">
-                {selectedUser?.role || 'N/A'}
+                {selectedUser?.role || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Address">
-                {selectedUser?.address || 'N/A'}
+                {selectedUser?.address || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Date of Birth">
-                {selectedUser?.dateOfBirth ? new Date(selectedUser.dateOfBirth).toLocaleDateString() : 'N/A'}
+                {selectedUser?.dateOfBirth
+                  ? new Date(selectedUser.dateOfBirth).toLocaleDateString()
+                  : "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Gender">
-                {selectedUser?.gender || 'N/A'}
+                {selectedUser?.gender || "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Registration Date">
-                {selectedUser?.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}
+                {selectedUser?.createdAt
+                  ? new Date(selectedUser.createdAt).toLocaleDateString()
+                  : "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Last Updated">
-                {selectedUser?.updatedAt ? new Date(selectedUser.updatedAt).toLocaleDateString() : 'N/A'}
+                {selectedUser?.updatedAt
+                  ? new Date(selectedUser.updatedAt).toLocaleDateString()
+                  : "N/A"}
               </Descriptions.Item>
               <Descriptions.Item label="Account Status">
-                <Tag color={selectedUser?.isBlocked ? 'red' : 'green'}>
-                  {selectedUser?.isBlocked ? 'Blocked' : 'Active'}
+                <Tag color={selectedUser?.isBlocked ? "red" : "green"}>
+                  {selectedUser?.isBlocked ? "Blocked" : "Active"}
                 </Tag>
               </Descriptions.Item>
               {selectedUser?.pets && selectedUser.pets.length > 0 && (

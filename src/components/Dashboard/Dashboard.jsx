@@ -1,4 +1,3 @@
-import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
 import user from "../../assets/user.svg";
 import medal from "../../assets/medal.svg";
@@ -11,29 +10,12 @@ import { Modal } from "antd";
 import { useGetAllDashboardQuery } from "../../redux/api/dashboardApi";
 
 function DashboardPage() {
-  const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const startYear = 2023;
-  const endYear = currentYear + 1;
-  const years = Array.from(
-    { length: endYear - startYear + 1 },
-    (_, i) => startYear + i
-  );
-
   const { data: dashboardData, isLoading } = useGetAllDashboardQuery();
-  console.log("dashboardData ", dashboardData);
   const totalUsers = dashboardData?.data?.totalUsers;
   const totalIncome = dashboardData?.data?.totalIncome;
   const totalSellers = dashboardData?.data?.totalSellers;
   const totalSubscribers = dashboardData?.data?.totalSubscribers;
-
-  const handleSelect = (year) => {
-    setSelectedYear(year);
-    setIsOpen(false);
-  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -107,21 +89,16 @@ function DashboardPage() {
 
   return (
     <div className="flex flex-col">
-      {/* Card Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {cardData.map((card, index) => (
           <div
             key={index}
             className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
           >
-            {/* Background Gradient */}
             <div
               className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
             ></div>
-
-            {/* Card Content */}
             <div className="relative p-6">
-              {/* Icon Section */}
               <div
                 className={`inline-flex items-center justify-center w-14 h-14 ${card.bgColor} rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300`}
               >
@@ -154,7 +131,6 @@ function DashboardPage() {
           </div>
         ))}
       </div>
-      {/* .............. */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">
           <SubscriptionGrowth />
@@ -163,13 +139,22 @@ function DashboardPage() {
           <SellerGrowth />
         </div>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 overflow-hidden">
         <h1 className="text-2xl font-bold mb-5">Business owners Requests</h1>
-        <RecentSellerRequests showModal={showModal} />
+        <div className="min-w-full">
+          <RecentSellerRequests showModal={showModal} />
+        </div>
       </div>
-      <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null}>
-        <div className="p-5">
-          <h1 className="text-4xl text-center text-[#0D0D0D]">
+      <Modal
+        open={isModalOpen}
+        centered
+        onCancel={handleCancel}
+        footer={null}
+        width="90%"
+        style={{ maxWidth: "400px" }}
+      >
+        <div className="p-2 sm:p-5">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl text-center text-[#0D0D0D]">
             Are you sure you want to block ?
           </h1>
 

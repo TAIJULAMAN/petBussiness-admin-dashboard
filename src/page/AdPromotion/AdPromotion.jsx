@@ -5,7 +5,10 @@ import PageHeading from "../../shared/PageHeading";
 import { Modal } from "antd";
 import { FaUpload } from "react-icons/fa";
 import { getImageUrl } from "../../config/envConfig";
-import { useGetAllAdsQuery, useUpdateAdsStatusMutation } from "../../redux/api/adsPromotionApis";
+import {
+  useGetAllAdsQuery,
+  useUpdateAdsStatusMutation,
+} from "../../redux/api/adsPromotionApis";
 
 export default function AdPromotion() {
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -15,9 +18,6 @@ export default function AdPromotion() {
   const handleCancel2 = () => {
     setAddModalOpen(false);
   };
-  // const showModal2 = () => {
-  //   setAddModalOpen(true);
-  // };
   const { data, isLoading, error, refetch } = useGetAllAdsQuery();
   const ads = Array.isArray(data?.advertisement) ? data.advertisement : [];
   const handleImageChange = (e) => {
@@ -25,22 +25,10 @@ export default function AdPromotion() {
       setSelectedImage(e.target.files[0]);
     }
   };
-
-  // console.log(getImageUrl("uploads//1755234295506-246692174.jpg"));
-
   return (
     <div className="p-6 bg-neutral-100 min-h-screen">
       <div className="flex justify-between items-center text-center mb-5">
         <PageHeading title="Ads Promotion" />
-
-        {/* <div className="flex justify-end items-center">
-          <button
-            onClick={showModal2}
-            className="bg-[#FF62BD] text-white px-4 py-3 rounded-lg"
-          >
-            + Add New Promotion
-          </button>
-        </div> */}
       </div>
       {error && (
         <div className="mb-4 p-3 bg-red-50 text-red-600 rounded">
@@ -155,7 +143,8 @@ export default function AdPromotion() {
 
 function AdCard({ ad, onChanged }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [updateAdsStatus, { isLoading: isUpdating }] = useUpdateAdsStatusMutation();
+  const [updateAdsStatus, { isLoading: isUpdating }] =
+    useUpdateAdsStatusMutation();
 
   const toggleStatus = async () => {
     const current = (ad?.status || "INACTIVE").toUpperCase();
@@ -175,7 +164,9 @@ function AdCard({ ad, onChanged }) {
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-2">
             <h2 className="font-bold text-lg">Advertisement</h2>
-            <span className={`px-2 py-0.5 rounded text-xs ${ad.status === "ACTIVE" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}`}>
+            <span
+              className={`px-2 py-0.5 rounded text-xs ${ad.status === "ACTIVE" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}`}
+            >
               {ad.status}
             </span>
           </div>
@@ -196,16 +187,18 @@ function AdCard({ ad, onChanged }) {
                   disabled={isUpdating}
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-60"
                 >
-                  Change Status to {ad.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"}
+                  Change Status to{" "}
+                  {ad.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"}
                 </button>
               </div>
             )}
           </div>
         </div>
-        
 
         <img
-          src={getImageUrl((ad?.advertisementImg?.[0] || "").replace(/\\/g, "/"))}
+          src={getImageUrl(
+            (ad?.advertisementImg?.[0] || "").replace(/\\/g, "/"),
+          )}
           alt={"Advertisement"}
           className="w-full rounded-lg max-h-[300px] object-cover"
         />

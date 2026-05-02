@@ -1,18 +1,15 @@
 import {
   MdDashboard,
-  MdManageAccounts,
   MdOutlineCategory,
   MdOutlinePets,
   MdClose,
 } from "react-icons/md";
-import { FaChevronDown, FaCog, FaBars } from "react-icons/fa";
+import { FaChevronDown, FaCog } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import logo from "../../assets/header/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { TbHomeDollar } from "react-icons/tb";
-import { LuBadgeCheck } from "react-icons/lu";
 import { BiCheckShield, BiCommand } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/Slice/authSlice";
@@ -35,18 +32,6 @@ export const AdminItems = [
     label: "Business owners",
     icon: TbHomeDollar,
     link: "/dashboard/seller-management",
-  },
-  {
-    key: "subscription",
-    label: "Subscription",
-    icon: LuBadgeCheck,
-    link: "/dashboard/subscription",
-  },
-  {
-    key: "premiumSubscribers",
-    label: "Subscribers",
-    icon: MdManageAccounts,
-    link: "/premium-subscribers",
   },
   {
     key: "categorymanagement",
@@ -109,7 +94,6 @@ const SideBar = ({ isOpen, onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const contentRef = useRef({});
   const sidebarRef = useRef(null);
 
   // Check if mobile on mount and resize
@@ -169,7 +153,7 @@ const SideBar = ({ isOpen, onClose }) => {
         activeParent.children
           ? activeParent.children.find((child) => child.link === currentPath)
               ?.key || activeParent.key
-          : activeParent.key
+          : activeParent.key,
       );
 
       if (activeParent.children && !expandedKeys.includes(activeParent.key)) {
@@ -180,11 +164,12 @@ const SideBar = ({ isOpen, onClose }) => {
 
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
-      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key],
     );
   };
 
   const handleLogout = () => {
+    dispatch(logout());
     navigate("/login");
   };
 
