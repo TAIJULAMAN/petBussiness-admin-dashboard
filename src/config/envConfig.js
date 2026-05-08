@@ -1,4 +1,4 @@
-export const imgUrl = "http://13.50.247.46/";
+export const imgUrl = "https://api.sansaland.com/";
 export const url = `${imgUrl}api/`;
 
 const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
